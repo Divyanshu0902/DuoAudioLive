@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Bluetooth, Headphones, Play, ArrowRight, CheckCircle2, Sliders, Radio, Laptop } from 'lucide-react';
+import { Bluetooth, Headphones, Play, ArrowRight, CheckCircle2, Sliders, Radio, Laptop, BookOpen } from 'lucide-react';
 
 export default function HowItWorks() {
   const [activeStep, setActiveStep] = useState(0);
@@ -9,57 +9,55 @@ export default function HowItWorks() {
     {
       step: '01',
       title: 'Pair Both Earbuds via Bluetooth',
-      subtitle: 'Standard Windows Settings',
-      desc: 'Put both pairs of Bluetooth earbuds into pairing mode and connect them in Windows 11 Settings (Bluetooth & devices). Windows will recognize both devices.',
-      tag: 'Step 1 • Pairing',
+      desc: 'Put both pairs of Bluetooth earbuds into pairing mode and connect them in Windows 11 Settings (Bluetooth & devices).',
+      tag: 'Step 1 • Connect',
       icon: <Bluetooth className="w-6 h-6 text-blue-400" />,
-      previewTitle: 'Windows Bluetooth & Devices',
+      previewTitle: 'Windows Bluetooth Settings',
       previewItems: [
-        { name: 'boAt Airdopes 161', status: 'Connected music', color: 'text-blue-400' },
-        { name: 'realme Buds T310', status: 'Connected music', color: 'text-purple-400' },
+        { name: 'boAt Airdopes 161', status: 'Connected', color: 'text-blue-400' },
+        { name: 'realme Buds T310', status: 'Connected', color: 'text-purple-400' },
       ],
     },
     {
       step: '02',
-      title: 'Select Outputs in DuoAudio',
-      subtitle: 'Instant Device Detection',
-      desc: 'Launch DuoAudio. It automatically queries available Windows Core Audio endpoints. Simply choose Earbud 1 and Earbud 2 from the clean dropdown menus.',
-      tag: 'Step 2 • Output Selection',
+      title: 'Select Both Earbuds in DuoAudio',
+      desc: 'Open DuoAudio. Pick your first pair in the Earbud 1 dropdown and your friend’s pair in Earbud 2.',
+      tag: 'Step 2 • Select',
       icon: <Sliders className="w-6 h-6 text-indigo-400" />,
-      previewTitle: 'DuoAudio Output Selectors',
+      previewTitle: 'Select Your Output Devices',
       previewItems: [
-        { name: 'Primary: boAt Airdopes 161 (Bluetooth)', status: 'Ready', color: 'text-emerald-400' },
-        { name: 'Secondary: realme Buds T310 (Bluetooth)', status: 'Ready', color: 'text-emerald-400' },
+        { name: 'Earbud 1: boAt Airdopes 161', status: 'Ready', color: 'text-emerald-400' },
+        { name: 'Earbud 2: realme Buds T310', status: 'Ready', color: 'text-emerald-400' },
       ],
     },
     {
       step: '03',
       title: 'Click ▷ Start Sharing',
-      subtitle: 'Zero Setup Audio Duplication',
-      desc: 'Press the Start button. DuoAudio activates WASAPI loopback capture, duplicates audio streams in lockstep, and locks laptop speakers muted.',
-      tag: 'Step 3 • Live Streaming',
+      desc: 'Press the Start button. Audio streams to both pairs in perfect sync, while your laptop speakers stay automatically quiet.',
+      tag: 'Step 3 • Enjoy',
       icon: <Play className="w-6 h-6 text-emerald-400" />,
-      previewTitle: 'Live Streaming Active',
+      previewTitle: 'Audio Streaming Active',
       previewItems: [
-        { name: 'WASAPI Ring Buffer Sync', status: 'Active (0.0ms drift)', color: 'text-emerald-400' },
-        { name: 'Silent Room Speaker Guard', status: 'Active (Muted)', color: 'text-blue-400' },
+        { name: 'Dual Sound Sync', status: 'Playing in Lockstep', color: 'text-emerald-400' },
+        { name: 'Physical Laptop Speakers', status: 'Silenced (0%)', color: 'text-blue-400' },
       ],
     },
   ];
 
   return (
-    <section id="how-it-works" className="py-24 relative bg-[#07080B] overflow-hidden">
+    <section id="user-guide" className="py-24 relative bg-[#07080B] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Prominent Clean Minimalist Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-mono text-emerald-400 mb-3">
-            <Radio className="w-3.5 h-3.5" />
-            <span>3 Simple Steps</span>
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-mono text-emerald-400 mb-4">
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>User Guide</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            How DuoAudio Works
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            Up and Running in 30 Seconds
           </h2>
-          <p className="text-gray-400 mt-4 text-base sm:text-lg">
-            From unboxing to dual-headphone movie night in under 30 seconds.
+          <p className="text-gray-400 mt-4 text-base sm:text-lg leading-relaxed">
+            Three simple steps to connect, stream, and share audio without complicated cables or drivers.
           </p>
         </div>
 
@@ -114,12 +112,12 @@ export default function HowItWorks() {
                     {steps[activeStep].icon}
                   </div>
                   <div>
-                    <span className="text-xs font-mono text-blue-400">Interactive Preview</span>
+                    <span className="text-xs font-mono text-blue-400">Preview</span>
                     <h4 className="text-lg font-bold text-white">{steps[activeStep].previewTitle}</h4>
                   </div>
                 </div>
                 <div className="text-xs font-mono text-gray-400 bg-white/[0.04] px-3 py-1.5 rounded-xl border border-white/[0.08]">
-                  Phase {activeStep + 1} of 3
+                  Step {activeStep + 1} of 3
                 </div>
               </div>
 
@@ -150,7 +148,7 @@ export default function HowItWorks() {
                   <span>
                     {activeStep === 0 && 'Windows connects both headsets simultaneously'}
                     {activeStep === 1 && 'DuoAudio pairs endpoints automatically'}
-                    {activeStep === 2 && 'Stream synchronized with 0ms relative latency'}
+                    {activeStep === 2 && 'Stream synchronized with zero delay'}
                   </span>
                 </div>
                 {activeStep < 2 ? (
@@ -163,7 +161,7 @@ export default function HowItWorks() {
                   </button>
                 ) : (
                   <span className="text-xs font-mono text-emerald-400 font-bold">
-                    System Ready
+                    Ready to Stream
                   </span>
                 )}
               </div>

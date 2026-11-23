@@ -35,16 +35,17 @@ export default function FAQ() {
   return (
     <section id="faq" className="py-24 relative bg-[#07080B] overflow-hidden">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-mono text-blue-400 mb-3">
+        {/* Prominent Clean Minimalist Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-mono text-blue-400 mb-4">
             <HelpCircle className="w-3.5 h-3.5" />
-            <span>Frequently Asked Questions</span>
+            <span>FAQ</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Got Questions? We’ve Got Answers.
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            Frequently Asked Questions
           </h2>
-          <p className="text-gray-400 mt-4 text-base">
-            Everything you need to know about compatibility, latency, privacy, and Windows 11 integration.
+          <p className="text-gray-400 mt-4 text-base sm:text-lg leading-relaxed">
+            Quick answers about earbud compatibility, volume pacing, and Windows 11 integration.
           </p>
         </div>
 

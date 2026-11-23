@@ -1,109 +1,126 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Monitor, Headphones, Volume2, Play, CheckCircle2, Sparkles, ExternalLink } from 'lucide-react';
+import { Headphones, Sliders, Play, CheckCircle2, RefreshCw } from 'lucide-react';
 
 export default function AppPreviewSection() {
-  const [activeHotspot, setActiveHotspot] = useState(0);
+  const [activeFeature, setActiveFeature] = useState(0);
 
-  const hotspots = [
+  const features = [
     {
       id: 0,
-      title: 'Device 1 Selector',
-      desc: 'Selects Primary Bluetooth Earbuds (e.g. boAt Airdopes 161) with automatic audio format negotiation.',
-      coords: 'Top Left Panel',
+      icon: <Headphones className="w-5 h-5 text-blue-400" />,
+      title: 'Dual Output Selectors',
+      desc: 'Pick Earbud 1 and Earbud 2 from clean dropdowns with real-time Bluetooth detection.',
     },
     {
       id: 1,
-      title: 'Device 2 Selector',
-      desc: 'Selects Secondary Bluetooth Earbuds (e.g. realme Buds T310) running on duplicate ring buffer.',
-      coords: 'Top Right Panel',
+      icon: <Sliders className="w-5 h-5 text-purple-400" />,
+      title: 'Independent Volume Controls',
+      desc: 'Smooth faders allow listener 1 and listener 2 to personalize their loudness separately.',
     },
     {
       id: 2,
-      title: 'Independent Volume Faders',
-      desc: 'Real-time linear decibel sliders allowing listener 1 and listener 2 to personalize loudness independently.',
-      coords: 'Middle Volume Sliders',
+      icon: <Play className="w-5 h-5 text-emerald-400" />,
+      title: 'One-Click Start Sharing',
+      desc: 'Instantly begins synchronized dual streaming while keeping laptop speakers completely silent.',
     },
     {
       id: 3,
-      title: 'One-Click Start / Stop',
-      desc: 'Instantly activates WASAPI capture, locks laptop speakers muted, and streams audio simultaneously.',
-      coords: 'Bottom Action Button',
+      icon: <RefreshCw className="w-5 h-5 text-indigo-400" />,
+      title: 'Instant Device Refresh',
+      desc: 'One tap queries Windows audio services and refreshes newly connected Bluetooth devices.',
     },
   ];
 
   return (
-    <section id="preview" className="py-24 relative bg-[#07080B] overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-indigo-600/10 rounded-full blur-[150px] pointer-events-none" />
+    <section id="preview" className="pt-6 pb-20 md:pt-8 md:pb-24 relative bg-[#07080B] overflow-hidden">
+      {/* Ambient background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-blue-600/10 rounded-full blur-[150px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-mono text-blue-400 mb-3">
-            <Monitor className="w-3.5 h-3.5" />
-            <span>Desktop Application UI</span>
-          </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Clean, Minimalist & Distraction-Free
-          </h2>
-          <p className="text-gray-400 mt-4 text-base sm:text-lg">
-            No bloat, no account creation, no advertisements. Just launch, pick two headsets, and start listening.
-          </p>
-        </div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Balanced 2-Column Side-by-Side Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          {/* Left Column: Clean App Screenshot (6 cols) */}
+          <div className="lg:col-span-6 flex justify-center lg:justify-start">
+            <div className="relative w-full max-w-[380px] sm:max-w-[420px]">
+              {/* Outer Glow Halo */}
+              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-blue-500/20 via-purple-500/20 to-blue-500/20 blur-xl opacity-75" />
 
-        {/* App Showcase Frame */}
-        <div className="max-w-5xl mx-auto">
-          <div className="relative rounded-3xl p-3 sm:p-5 bg-gradient-to-b from-white/[0.12] via-white/[0.04] to-transparent border border-white/[0.12] shadow-2xl backdrop-blur-md">
-            {/* Window bar */}
-            <div className="flex items-center justify-between px-4 py-3 bg-[#0B0E17] rounded-t-2xl border-b border-white/[0.06] text-xs text-gray-400">
-              <div className="flex items-center space-x-2">
-                <div className="flex space-x-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
+              {/* Hardware Window Frame */}
+              <div className="relative rounded-3xl p-3 bg-gradient-to-b from-white/[0.14] via-white/[0.04] to-transparent border border-white/[0.15] shadow-2xl shadow-black/90 backdrop-blur-md">
+                {/* Window Title Bar */}
+                <div className="flex items-center justify-between px-3.5 py-2.5 bg-[#0B0E17] rounded-t-2xl border-b border-white/[0.06] text-xs text-gray-400">
+                  <div className="flex items-center space-x-2">
+                    <div className="flex space-x-1.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                    </div>
+                    <span className="font-mono text-[11px] text-gray-400 ml-1.5">DuoAudio v1.0.2</span>
+                  </div>
+                  <div className="flex items-center space-x-1.5 text-emerald-400 font-mono text-[10px]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>Connected</span>
+                  </div>
                 </div>
-                <span className="font-mono text-gray-400 ml-2">DuoAudio v1.0.2 • Windows 11</span>
-              </div>
-              <div className="flex items-center space-x-2 text-emerald-400 font-mono text-[11px]">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Native Standalone Helper Loaded</span>
-              </div>
-            </div>
 
-            {/* Main Screenshot Container */}
-            <div className="relative bg-[#090C12] rounded-b-2xl overflow-hidden group">
-              <img
-                src="/assets/screenshot-main.png"
-                alt="DuoAudio Desktop App Interface"
-                className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-[1.01]"
-              />
-
-              {/* Hotspot callouts */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                {/* Main Screenshot Container */}
+                <div className="relative bg-[#090C12] rounded-b-2xl overflow-hidden">
+                  <img
+                    src="/assets/screenshot-main.png"
+                    alt="DuoAudio Desktop App Interface"
+                    className="w-full h-auto object-contain block mx-auto select-none"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Interactive Feature Annotations Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-            {hotspots.map((h, i) => (
-              <div
-                key={h.id}
-                onClick={() => setActiveHotspot(i)}
-                className={`p-5 rounded-2xl cursor-pointer transition-all border ${
-                  activeHotspot === i
-                    ? 'bg-[#121626] border-blue-500/50 shadow-lg shadow-blue-500/10 -translate-y-1'
-                    : 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]'
-                }`}
-              >
-                <div className="flex items-center space-x-2 text-xs font-mono text-blue-400 mb-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                  <span>{h.coords}</span>
+          {/* Right Column: Descriptions & Interactive Feature Cards (6 cols) */}
+          <div className="lg:col-span-6 space-y-6">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-3">
+                Minimal, Fast, and Focused.
+              </h2>
+              <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
+                No bloated menus, sign-ins, or complicated routing. Everything you need to share audio fits into a single, intuitive Windows 11 utility.
+              </p>
+            </div>
+
+            {/* Feature Cards Grid / List */}
+            <div className="space-y-3 pt-2">
+              {features.map((item, idx) => (
+                <div
+                  key={item.id}
+                  onMouseEnter={() => setActiveFeature(idx)}
+                  className={`p-4 rounded-2xl transition-all border cursor-pointer ${
+                    activeFeature === idx
+                      ? 'bg-[#111524] border-blue-500/40 shadow-lg shadow-blue-500/5 translate-x-1'
+                      : 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]'
+                  }`}
+                >
+                  <div className="flex items-start space-x-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center shrink-0 mt-0.5">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-white mb-0.5">{item.title}</h3>
+                      <p className="text-xs text-gray-400 leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
                 </div>
-                <h4 className="text-sm font-bold text-white mb-1">{h.title}</h4>
-                <p className="text-xs text-gray-400 leading-relaxed">{h.desc}</p>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {/* Bottom trust footnote */}
+            <div className="pt-2 flex items-center space-x-2 text-xs font-mono text-gray-400">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Runs quietly in system tray with sub-0.5% CPU overhead</span>
+            </div>
           </div>
+
         </div>
       </div>
     </section>

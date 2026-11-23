@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Download, Github, Menu, X, Radio, Volume2, Sparkles, Star } from 'lucide-react';
+import { Download, Github, Menu, X, Star } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { triggerConfetti } from '../utils/confetti';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,19 +18,28 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Features', href: '#features' },
-    { name: 'How It Works', href: '#how-it-works' },
-    { name: 'Architecture', href: '#architecture' },
-    { name: 'Preview', href: '#preview' },
-    { name: 'FAQ', href: '#faq' },
-  ];
+  const handleNavClick = (href) => {
+    setMobileMenuOpen(false);
+    if (href.startsWith('#')) {
+      if (location.pathname !== '/') {
+        navigate(`/${href}`);
+      } else {
+        const el = document.querySelector(href);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
-  const handleDownloadClick = (e) => {
+  const handleDownloadClick = () => {
+    setMobileMenuOpen(false);
     triggerConfetti(0.5, 0.2);
-    const downloadSection = document.getElementById('download');
-    if (downloadSection) {
-      downloadSection.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate('/#download');
+    } else {
+      const downloadSection = document.getElementById('download');
+      if (downloadSection) {
+        downloadSection.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -35,14 +47,14 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#07080B]/80 backdrop-blur-xl border-b border-white/[0.08] shadow-2xl shadow-black/50 py-3.5'
+          ? 'bg-[#07080B]/85 backdrop-blur-xl border-b border-white/[0.08] shadow-2xl shadow-black/50 py-3.5'
           : 'bg-transparent py-5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo & Brand */}
-          <a href="#" className="flex items-center space-x-3 group">
+          <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-[#3B82F6] via-[#5C6CDB] to-[#8B5CF6] p-[1px] shadow-lg shadow-[#5C6CDB]/20 group-hover:shadow-[#5C6CDB]/40 transition-shadow">
               <div className="w-full h-full bg-[#0B0D13] rounded-xl flex items-center justify-center space-x-[2px] px-1.5 overflow-hidden">
                 <span className="w-1 bg-[#3B82F6] h-3.5 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
@@ -59,19 +71,48 @@ export default function Navbar() {
                 v1.0.2
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 bg-white/[0.03] border border-white/[0.08] rounded-full px-4 py-1.5 backdrop-blur-md">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="px-3.5 py-1 text-sm text-gray-300 hover:text-white rounded-full transition-colors hover:bg-white/[0.06]"
-              >
-                {link.name}
-              </a>
-            ))}
+          <nav className="hidden md:flex items-center space-x-1 lg:space-x-1.5 bg-white/[0.03] border border-white/[0.08] rounded-full px-4 py-1.5 backdrop-blur-md">
+            <button
+              onClick={() => handleNavClick('#features')}
+              className="px-3 py-1 text-sm text-gray-300 hover:text-white rounded-full transition-colors hover:bg-white/[0.06]"
+            >
+              Features
+            </button>
+            <button
+              onClick={() => handleNavClick('#user-guide')}
+              className="px-3 py-1 text-sm text-gray-300 hover:text-white rounded-full transition-colors hover:bg-white/[0.06]"
+            >
+              User Guide
+            </button>
+            <Link
+              to="/architecture"
+              className={`px-3 py-1 text-sm rounded-full transition-colors ${
+                location.pathname === '/architecture' || location.pathname === '/docs'
+                  ? 'bg-blue-600/30 text-white font-medium border border-blue-500/30'
+                  : 'text-gray-300 hover:text-white hover:bg-white/[0.06]'
+              }`}
+            >
+              Architecture
+            </Link>
+            <Link
+              to="/troubleshooting"
+              className={`px-3 py-1 text-sm rounded-full transition-colors ${
+                location.pathname === '/troubleshooting'
+                  ? 'bg-blue-600/30 text-white font-medium border border-blue-500/30'
+                  : 'text-gray-300 hover:text-white hover:bg-white/[0.06]'
+              }`}
+            >
+              Troubleshooting
+            </Link>
+            <button
+              onClick={() => handleNavClick('#faq')}
+              className="px-3 py-1 text-sm text-gray-300 hover:text-white rounded-full transition-colors hover:bg-white/[0.06]"
+            >
+              FAQ
+            </button>
           </nav>
 
           {/* Action CTAs */}
@@ -96,9 +137,6 @@ export default function Navbar() {
             >
               <Download className="w-4 h-4" />
               <span>Download</span>
-              <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded-full font-mono uppercase tracking-wider">
-                Win 11
-              </span>
             </button>
           </div>
 
@@ -133,16 +171,38 @@ export default function Navbar() {
             className="md:hidden bg-[#0B0D13]/95 backdrop-blur-2xl border-b border-white/[0.08] px-4 pt-3 pb-6 space-y-3"
           >
             <div className="flex flex-col space-y-1">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-2.5 text-base font-medium text-gray-200 hover:text-white rounded-lg hover:bg-white/[0.06] transition-colors"
-                >
-                  {link.name}
-                </a>
-              ))}
+              <button
+                onClick={() => handleNavClick('#features')}
+                className="text-left px-4 py-2.5 text-base font-medium text-gray-200 hover:text-white rounded-lg hover:bg-white/[0.06] transition-colors"
+              >
+                Features
+              </button>
+              <button
+                onClick={() => handleNavClick('#user-guide')}
+                className="text-left px-4 py-2.5 text-base font-medium text-gray-200 hover:text-white rounded-lg hover:bg-white/[0.06] transition-colors"
+              >
+                User Guide
+              </button>
+              <Link
+                to="/architecture"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-4 py-2.5 text-base font-medium text-gray-200 hover:text-white rounded-lg hover:bg-white/[0.06] transition-colors"
+              >
+                Architecture
+              </Link>
+              <Link
+                to="/troubleshooting"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-4 py-2.5 text-base font-medium text-gray-200 hover:text-white rounded-lg hover:bg-white/[0.06] transition-colors"
+              >
+                Troubleshooting
+              </Link>
+              <button
+                onClick={() => handleNavClick('#faq')}
+                className="text-left px-4 py-2.5 text-base font-medium text-gray-200 hover:text-white rounded-lg hover:bg-white/[0.06] transition-colors"
+              >
+                FAQ
+              </button>
             </div>
 
             <div className="pt-3 border-t border-white/[0.08] flex flex-col space-y-2">
@@ -157,14 +217,11 @@ export default function Navbar() {
               </a>
 
               <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  handleDownloadClick();
-                }}
+                onClick={handleDownloadClick}
                 className="flex items-center justify-center space-x-2 w-full py-2.5 rounded-xl bg-gradient-to-r from-[#5C6CDB] to-[#8B5CF6] text-sm font-medium text-white shadow-lg shadow-[#5C6CDB]/30"
               >
                 <Download className="w-4 h-4" />
-                <span>Download DuoAudio for Windows 11</span>
+                <span>Download for Windows 11</span>
               </button>
             </div>
           </motion.div>

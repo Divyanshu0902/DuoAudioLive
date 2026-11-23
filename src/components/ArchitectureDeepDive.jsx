@@ -141,17 +141,12 @@ app.on('ready', async () => {
       <div className="absolute top-1/2 right-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-mono text-purple-400 mb-3">
+        {/* Single Clean Tag without multi-captioning clutter */}
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-mono text-purple-400">
             <Code2 className="w-3.5 h-3.5" />
-            <span>Systems Deep Dive</span>
+            <span>Under The Hood • Systems Architecture</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Engineered for Windows 11
-          </h2>
-          <p className="text-gray-400 mt-4 text-base sm:text-lg">
-            An architectural breakdown of the C++, WASAPI, and COM engineering that makes DuoAudio rock-solid.
-          </p>
         </div>
 
         {/* Tab Controls */}

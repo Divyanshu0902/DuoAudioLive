@@ -1,5 +1,6 @@
 import React from 'react';
-import { Github, Heart, ArrowUp, Sparkles, ExternalLink, ShieldCheck } from 'lucide-react';
+import { Github, Heart, ArrowUp, ShieldCheck, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -12,7 +13,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-white/[0.06]">
           {/* Brand & Description (5 cols) */}
           <div className="md:col-span-5 space-y-4">
-            <div className="flex items-center space-x-3">
+            <Link to="/" className="flex items-center space-x-3 group">
               <div className="relative w-8 h-8 rounded-lg bg-gradient-to-tr from-[#3B82F6] via-[#5C6CDB] to-[#8B5CF6] p-[1px]">
                 <div className="w-full h-full bg-[#0B0D13] rounded-lg flex items-center justify-center space-x-[2px] px-1 overflow-hidden">
                   <span className="w-0.5 bg-[#3B82F6] h-2.5 rounded-full" />
@@ -25,10 +26,10 @@ export default function Footer() {
               <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-white/[0.06] text-blue-400">
                 v1.0.2
               </span>
-            </div>
+            </Link>
 
             <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
-              The open-source Windows 11 utility that duplicates system audio so two people can listen together using two separate Bluetooth earbuds in perfect sync.
+              The open-source Windows 11 utility that duplicates system audio so two people can listen together using two separate pairs of Bluetooth earbuds.
             </p>
 
             <div className="flex items-center space-x-2 text-xs font-mono text-gray-500">
@@ -40,33 +41,33 @@ export default function Footer() {
           {/* Quick Links (3 cols) */}
           <div className="md:col-span-3 space-y-3">
             <h4 className="text-xs font-mono uppercase tracking-wider text-gray-300 font-semibold">
-              Product
+              Product & Help
             </h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#features" className="hover:text-white transition-colors">
+                <Link to="/#features" className="hover:text-white transition-colors">
                   Key Features
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#how-it-works" className="hover:text-white transition-colors">
-                  How It Works
-                </a>
+                <Link to="/#user-guide" className="hover:text-white transition-colors">
+                  User Guide
+                </Link>
               </li>
               <li>
-                <a href="#architecture" className="hover:text-white transition-colors">
-                  Systems Architecture
-                </a>
+                <Link to="/architecture" className="hover:text-white transition-colors text-blue-400">
+                  Architecture & Systems
+                </Link>
               </li>
               <li>
-                <a href="#preview" className="hover:text-white transition-colors">
-                  Desktop Interface
-                </a>
+                <Link to="/troubleshooting" className="hover:text-white transition-colors text-purple-400">
+                  Troubleshooting Guide
+                </Link>
               </li>
               <li>
-                <a href="#faq" className="hover:text-white transition-colors">
+                <Link to="/#faq" className="hover:text-white transition-colors">
                   Frequently Asked Questions
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -116,7 +117,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-white transition-colors"
                 >
-                  Report an Issue or Bug
+                  Report an Issue
                 </a>
               </li>
             </ul>
@@ -126,7 +127,7 @@ export default function Footer() {
         {/* Bottom Credits & Back to Top */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-xs text-gray-400 flex items-center space-x-1">
-            <span>Built with precision by</span>
+            <span>Built by</span>
             <a
               href="https://github.com/Divyanshu0902"
               target="_blank"
@@ -135,7 +136,7 @@ export default function Footer() {
             >
               Divyanshu Kumar
             </a>
-            <span>• MIT Licensed</span>
+            <span>• Open Source MIT</span>
           </div>
 
           <button
