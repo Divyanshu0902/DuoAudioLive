@@ -188,7 +188,7 @@ HRESULT SetDefaultEndpoint(const std::wstring& deviceId) {
   return (
     <section id="architecture" className="py-24 relative bg-[#07080B] overflow-hidden">
       {/* Ambient background glows */}
-      <div className="absolute top-1/2 right-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-1/2 right-1/4 w-[500px] h-[500px] bg-[#5C6CDB]/10 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
@@ -212,7 +212,7 @@ HRESULT SetDefaultEndpoint(const std::wstring& deviceId) {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 sm:px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-medium transition-all flex items-center space-x-2 border ${
                 activeTab === tab.id
-                  ? 'bg-blue-600/20 border-blue-500/50 text-white shadow-lg shadow-blue-500/10'
+                  ? 'bg-[#5C6CDB]/20 border-[#5C6CDB]/50 text-white shadow-lg shadow-[#5C6CDB]/10'
                   : 'bg-white/[0.03] border-white/[0.06] text-gray-400 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
@@ -230,7 +230,7 @@ HRESULT SetDefaultEndpoint(const std::wstring& deviceId) {
             {/* Description & Specs (5 cols) */}
             <div className="lg:col-span-5 space-y-6">
               <div>
-                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-blue-400 mb-3">
+                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-[#9AA7FF] mb-3">
                   <span>{currentTab.subtitle}</span>
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-3">{currentTab.title}</h3>
@@ -255,7 +255,7 @@ HRESULT SetDefaultEndpoint(const std::wstring& deviceId) {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300 flex items-center space-x-2">
+              <div className="p-3.5 rounded-xl bg-[#5C6CDB]/10 border border-[#5C6CDB]/20 text-xs text-[#9AA7FF] flex items-center space-x-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>Production tested on Windows 11 (22H2, 23H2 & 24H2)</span>
               </div>

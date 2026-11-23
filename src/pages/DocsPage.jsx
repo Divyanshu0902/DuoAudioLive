@@ -305,7 +305,7 @@ npm run build
               <span>Back to Home</span>
             </Link>
             <span className="text-gray-600">/</span>
-            <span className="text-xs font-mono text-blue-400">Architecture Specification</span>
+            <span className="text-xs font-mono text-[#9AA7FF]">Architecture Specification</span>
           </div>
 
           <a
@@ -321,7 +321,7 @@ npm run build
 
         {/* Documentation Header */}
         <div className="mb-10">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-mono text-blue-400 mb-4">
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#5C6CDB]/10 border border-[#5C6CDB]/20 text-xs font-mono text-[#9AA7FF] mb-4">
             <BookOpen className="w-3.5 h-3.5" />
             <span>Official Engineering Specification</span>
           </div>
@@ -341,7 +341,7 @@ npm run build
             placeholder="Search architecture topics (e.g. WASAPI, IPolicyConfig, silence patch)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#0D1017] border border-white/[0.08] rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50"
+            className="w-full bg-[#0D1017] border border-white/[0.08] rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#5C6CDB]/50"
           />
         </div>
 
@@ -358,7 +358,7 @@ npm run build
                 onClick={() => setActiveSection(sec.id)}
                 className={`w-full text-left px-3 py-2 rounded-xl text-xs font-medium transition-all flex items-center justify-between ${
                   activeSection === sec.id
-                    ? 'bg-blue-600/20 text-white font-semibold border border-blue-500/30'
+                    ? 'bg-[#5C6CDB]/20 text-white font-semibold border border-[#5C6CDB]/40'
                     : 'text-gray-400 hover:text-white hover:bg-white/[0.03]'
                 }`}
               >
@@ -375,12 +375,12 @@ npm run build
                 key={sec.id}
                 id={sec.id}
                 className={`p-6 sm:p-8 rounded-3xl bg-[#0B0E17] border transition-all ${
-                  activeSection === sec.id ? 'border-blue-500/40 shadow-xl shadow-blue-500/5' : 'border-white/[0.06]'
+                  activeSection === sec.id ? 'border-[#5C6CDB]/40 shadow-xl shadow-[#5C6CDB]/5' : 'border-white/[0.06]'
                 }`}
               >
                 <div className="flex items-center justify-between pb-4 border-b border-white/[0.06] mb-5">
                   <div>
-                    <span className="text-[11px] font-mono text-blue-400 px-2 py-0.5 rounded-md bg-blue-500/10">
+                    <span className="text-[11px] font-mono text-[#9AA7FF] px-2 py-0.5 rounded-md bg-[#5C6CDB]/10">
                       {sec.tag}
                     </span>
                     <h2 className="text-xl font-bold text-white mt-2">{sec.title}</h2>

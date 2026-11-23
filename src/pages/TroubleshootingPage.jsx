@@ -145,7 +145,7 @@ export default function TroubleshootingPage() {
               <span>Back to Home</span>
             </Link>
             <span className="text-gray-600">/</span>
-            <span className="text-xs font-mono text-blue-400">Troubleshooting Guide</span>
+            <span className="text-xs font-mono text-[#9AA7FF]">Troubleshooting Guide</span>
           </div>
 
           <a
@@ -161,7 +161,7 @@ export default function TroubleshootingPage() {
 
         {/* Header */}
         <div className="mb-10 text-center sm:text-left">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-mono text-blue-400 mb-4">
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#5C6CDB]/10 border border-[#5C6CDB]/20 text-xs font-mono text-[#9AA7FF] mb-4">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>Diagnostics & Support</span>
           </div>
@@ -182,7 +182,7 @@ export default function TroubleshootingPage() {
               placeholder="Search diagnostic topics (e.g. echo, AirPods, crackling, tray)..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-[#0D1017] border border-white/[0.08] rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50"
+              className="w-full bg-[#0D1017] border border-white/[0.08] rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#5C6CDB]/50"
             />
           </div>
 
@@ -193,7 +193,7 @@ export default function TroubleshootingPage() {
                 onClick={() => setFilter(cat)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-mono capitalize transition-all ${
                   filter === cat
-                    ? 'bg-blue-600/25 border border-blue-500/40 text-white font-semibold'
+                    ? 'bg-[#5C6CDB]/25 border border-[#5C6CDB]/40 text-white font-semibold'
                     : 'bg-white/[0.03] border border-white/[0.06] text-gray-400 hover:text-white'
                 }`}
               >
@@ -212,7 +212,7 @@ export default function TroubleshootingPage() {
                 key={issue.id}
                 className={`rounded-2xl transition-all border overflow-hidden ${
                   isOpen
-                    ? 'bg-[#0E121E] border-blue-500/30 shadow-xl shadow-blue-500/5'
+                    ? 'bg-[#0E121E] border-[#5C6CDB]/30 shadow-xl shadow-[#5C6CDB]/5'
                     : 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]'
                 }`}
               >
@@ -228,7 +228,7 @@ export default function TroubleshootingPage() {
                   </div>
                   <div
                     className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-200 mt-1 ${
-                      isOpen ? 'bg-blue-500/20 text-blue-400 rotate-180' : 'bg-white/[0.05] text-gray-400'
+                      isOpen ? 'bg-[#5C6CDB]/20 text-[#9AA7FF] rotate-180' : 'bg-white/[0.05] text-gray-400'
                     }`}
                   >
                     <ChevronDown className="w-4 h-4" />
