@@ -126,9 +126,9 @@ export default function BentoFeatures() {
               <Film className="w-6 h-6" />
             </div>
 
-            <h3 className="text-lg font-bold text-white mb-2">Cinema-Grade Lip-Sync</h3>
+            <h3 className="text-lg font-bold text-white mb-2">Movie & Video Sync</h3>
             <p className="text-gray-400 text-sm leading-relaxed mb-4">
-              Watch Netflix, YouTube, or movies together with zero perceptible lag. Sound matches the actors' lips in real-time.
+              Enjoy movies, shows, and music together with smooth, synchronized playback.
             </p>
 
             <div className="text-xs text-emerald-400 font-mono flex items-center space-x-1.5">

@@ -19,7 +19,7 @@ Designed with an aesthetic inspired by **Linear**, **Raycast**, and **Apple**, f
   - Interactive simulator toggling synchronized dual-channel stereo output
   - Sample-accurate real-time pulsing frequency bars
   - Track switcher (Cinematic Film Score, Lo-Fi Beats, Acoustic Session)
-  - 0.0ms relative drift latency indicator
+  - Low-latency synchronized dual playback status
 - **Problem vs. Solution Bento Grid:**
   - Explains the Windows single-endpoint limitation, earbud splitting downsides, and fragile virtual cables
   - Highlights DuoAudio's dual WASAPI streams, automatic routing, and Silent Room Guarantee
@@ -36,7 +36,7 @@ Designed with an aesthetic inspired by **Linear**, **Raycast**, and **Apple**, f
   - Interactive tabbed code explorer with syntax-highlighted snippets for:
     - `WASAPI Loopback Capture` (`AUDCLNT_STREAMFLAGS_LOOPBACK`)
     - `C++ COM Helper` (`IPolicyConfig::SetDefaultEndpoint`)
-    - `Dual Ring Buffer Pacing` (lock-free circular ring buffer with drift compensation)
+    - `PCM Frame Conversion & Rate Pacing` (uniform 20ms Float32 frames with 10ms high-resolution timer pacing)
     - `Decoupled Electron Supervisor` (Node.js 22 + Electron 33 lifecycle supervisor)
 - **Real Desktop Application Showcase:**
   - High-resolution frame featuring `screenshot-main.png` with interactive hotspot callouts

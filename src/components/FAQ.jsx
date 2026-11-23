@@ -16,7 +16,7 @@ export default function FAQ() {
     },
     {
       q: 'Will there be audio lag, delay, or lip-sync desync while watching movies?',
-      a: 'No. DuoAudio is engineered specifically for film and gaming synchronization. Our circular ring buffer maintains sample-accurate timing with sub-10ms processing overhead. Dialogue on Netflix, YouTube, VLC, and Prime Video stays in perfect sync with the actors’ lips.',
+      a: "DuoAudio processes and routes Windows system audio using low-latency WASAPI shared-mode streams with bounded memory buffers to prevent queue backlog. Both listeners receive audio in parallel. While standard Bluetooth headphones have typical Bluetooth transmission latency (depending on your headphones' codec), audio is well-synchronized for movies, YouTube, and music sharing.",
     },
     {
       q: 'How does DuoAudio prevent laptop speakers from echoing in the room?',

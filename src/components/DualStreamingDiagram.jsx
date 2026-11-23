@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Laptop, Headphones, VolumeX, Volume2, Bluetooth, ArrowRight, CheckCircle2, Play, Pause } from 'lucide-react';
+import { Laptop, Headphones, VolumeX, Volume2, Bluetooth, ArrowRight } from 'lucide-react';
 
 export default function DualStreamingDiagram() {
-  const [isStreaming, setIsStreaming] = useState(true);
   const [vol1, setVol1] = useState(70);
   const [vol2, setVol2] = useState(85);
   const [pulseKey, setPulseKey] = useState(0);
 
   useEffect(() => {
-    if (!isStreaming) return;
     const interval = setInterval(() => {
       setPulseKey((prev) => prev + 1);
     }, 1600);
     return () => clearInterval(interval);
-  }, [isStreaming]);
+  }, []);
 
   return (
     <section className="py-20 relative bg-[#07080B] overflow-hidden">
@@ -28,47 +26,12 @@ export default function DualStreamingDiagram() {
             How Dual Audio Streams Together
           </h2>
           <p className="text-gray-400 mt-4 text-base sm:text-lg leading-relaxed">
-            System audio is duplicated into two independent streams with zero delay and silent laptop speakers.
+            System audio is duplicated into two independent streams with synchronized streaming with silent laptop speakers.
           </p>
         </div>
 
         {/* 3D Flow Visual Canvas */}
         <div className="glass-panel rounded-3xl p-6 sm:p-10 border border-white/[0.08] shadow-2xl relative overflow-hidden">
-          {/* Top Bar with Live Toggle */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.06] mb-8">
-            <div className="flex items-center space-x-3">
-              <button
-                onClick={() => setIsStreaming(!isStreaming)}
-                className={`px-4 py-2 rounded-xl text-xs font-medium flex items-center space-x-2 transition-all ${
-                  isStreaming
-                    ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-300'
-                    : 'bg-white/[0.04] border border-white/[0.08] text-gray-400 hover:text-white'
-                }`}
-              >
-                {isStreaming ? (
-                  <>
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                    <span>Streaming Live</span>
-                  </>
-                ) : (
-                  <>
-                    <Play className="w-3.5 h-3.5 fill-current" />
-                    <span>Resume Simulation</span>
-                  </>
-                )}
-              </button>
-
-              <div className="hidden sm:flex items-center space-x-2 text-xs text-gray-400">
-                <span>Both earbuds play in lockstep</span>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-2 text-xs text-emerald-400">
-              <VolumeX className="w-4 h-4" />
-              <span>Laptop speakers: Silent</span>
-            </div>
-          </div>
-
           {/* Interactive Flow Architecture */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Source Node: Laptop (5 cols) */}
@@ -112,15 +75,13 @@ export default function DualStreamingDiagram() {
                 {/* Vector Top */}
                 <div className="w-full relative flex items-center">
                   <div className="h-0.5 w-full bg-gradient-to-r from-blue-500 to-indigo-500 relative overflow-hidden">
-                    {isStreaming && (
-                      <motion.div
-                        key={`stream-top-${pulseKey}`}
-                        initial={{ x: '-100%' }}
-                        animate={{ x: '100%' }}
-                        transition={{ duration: 1.4, ease: 'linear' }}
-                        className="absolute inset-0 bg-white shadow-[0_0_8px_#38BDF8]"
-                      />
-                    )}
+                    <motion.div
+                      key={`stream-top-${pulseKey}`}
+                      initial={{ x: '-100%' }}
+                      animate={{ x: '100%' }}
+                      transition={{ duration: 1.4, ease: 'linear' }}
+                      className="absolute inset-0 bg-white shadow-[0_0_8px_#38BDF8]"
+                    />
                   </div>
                   <ArrowRight className="w-4 h-4 text-indigo-400 shrink-0 -ml-1" />
                 </div>
@@ -133,15 +94,13 @@ export default function DualStreamingDiagram() {
                 {/* Vector Bottom */}
                 <div className="w-full relative flex items-center">
                   <div className="h-0.5 w-full bg-gradient-to-r from-blue-500 to-purple-500 relative overflow-hidden">
-                    {isStreaming && (
-                      <motion.div
-                        key={`stream-bot-${pulseKey}`}
-                        initial={{ x: '-100%' }}
-                        animate={{ x: '100%' }}
-                        transition={{ duration: 1.4, ease: 'linear' }}
-                        className="absolute inset-0 bg-white shadow-[0_0_8px_#C084FC]"
-                      />
-                    )}
+                    <motion.div
+                      key={`stream-bot-${pulseKey}`}
+                      initial={{ x: '-100%' }}
+                      animate={{ x: '100%' }}
+                      transition={{ duration: 1.4, ease: 'linear' }}
+                      className="absolute inset-0 bg-white shadow-[0_0_8px_#C084FC]"
+                    />
                   </div>
                   <ArrowRight className="w-4 h-4 text-purple-400 shrink-0 -ml-1" />
                 </div>
@@ -211,14 +170,6 @@ export default function DualStreamingDiagram() {
                   />
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Bottom Summary */}
-          <div className="mt-8 pt-6 border-t border-white/[0.06] flex items-center justify-between text-xs text-gray-400">
-            <div className="flex items-center space-x-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Full stereo immersion in both pairs without any audio delay</span>
             </div>
           </div>
         </div>

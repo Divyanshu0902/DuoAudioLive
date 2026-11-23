@@ -3,126 +3,176 @@ import { motion } from 'framer-motion';
 import { Terminal, Cpu, Layers, HardDrive, ShieldCheck, CheckCircle2, Copy, Check, Code2 } from 'lucide-react';
 
 export default function ArchitectureDeepDive() {
-  const [activeTab, setActiveTab] = useState('wasapi');
+  const [activeTab, setActiveTab] = useState('tier1');
   const [copiedCode, setCopiedCode] = useState(false);
 
   const tabs = [
     {
-      id: 'wasapi',
-      title: 'WASAPI Loopback Capture',
-      subtitle: 'IAudioCaptureClient COM',
-      badge: 'Core Engine',
-      description: 'Captures system audio before mixing down to hardware. Uses AUDCLNT_STREAMFLAGS_LOOPBACK in shared mode with zero audio frame drops and automated silence suppression handling.',
-      code: `// WASAPI Loopback Initialization
-HRESULT hr = CoCreateInstance(
-    __uuidof(MMDeviceEnumerator), NULL, CLSCTX_ALL,
-    __uuidof(IMMDeviceEnumerator), (void**)&pEnumerator
-);
-hr = pEnumerator->GetDefaultAudioEndpoint(eRender, eConsole, &pDevice);
-hr = pDevice->Activate(
-    __uuidof(IAudioClient), CLSCTX_ALL, NULL, (void**)&pAudioClient
-);
-hr = pAudioClient->GetMixFormat(&pwfx);
+      id: 'tier1',
+      title: 'Tier 1: Electron Supervisor',
+      subtitle: 'Electron 33 + React 19 UI',
+      badge: 'Shell & Lifecycle',
+      file: 'src/main/main.js',
+      description: 'Single-instance lock, isolated IPC contextBridge, and system tray lifecycle. The window intentionally features no close button in the header—closing minimizes to the Windows System Tray so movie audio is never accidentally disrupted.',
+      code: `// Electron Main Supervisor (src/main/main.js)
+const { app, BrowserWindow, Tray, Menu } = require('electron');
+const path = require('path');
+const { AudioService } = require('./audio_service');
 
-// 48 kHz / 16-bit linear PCM shared loopback
-hr = pAudioClient->Initialize(
-    AUDCLNT_SHAREMODE_SHARED,
-    AUDCLNT_STREAMFLAGS_LOOPBACK,
-    1000000, 0, pwfx, NULL
-);`,
+const gotLock = app.requestSingleInstanceLock();
+if (!gotLock) { app.quit(); return; }
+
+// Window lifecycle: minimize only, no close button to prevent movie disruption
+mainWindow = new BrowserWindow({
+  width: 420,
+  height: 600,
+  frame: false,
+  webPreferences: {
+    preload: path.join(__dirname, '../preload/preload.js'),
+    contextIsolation: true,
+    sandbox: true,
+  }
+});
+
+// Closing window or Alt+F4 hides to tray instead of quitting
+mainWindow.on('close', (event) => {
+  if (!app.isQuitting) {
+    event.preventDefault();
+    mainWindow.hide();
+  }
+});
+
+// Full termination is only available through Tray Context Menu
+tray = new Tray(iconPath);
+const contextMenu = Menu.buildFromTemplate([
+  { label: 'Open DuoAudio', click: () => mainWindow.show() },
+  { label: 'Quit DuoAudio', click: () => { app.isQuitting = true; app.quit(); } }
+]);
+tray.setContextMenu(contextMenu);`,
       specs: [
-        { label: 'Capture Mode', val: 'Shared-Mode Loopback' },
-        { label: 'Target Spec', val: '16-Bit / 48.0 kHz' },
-        { label: 'Latency Overhead', val: '< 6.8 ms' },
-        { label: 'API Type', val: 'Windows Core Audio COM' },
+        { label: 'Shell Architecture', val: 'Electron 33 + Node.js 20+' },
+        { label: 'UI Framework', val: 'React 19 + Vite 8 (Graphite)' },
+        { label: 'IPC Security Model', val: 'contextIsolation: true, sandbox' },
+        { label: 'Window Lifecycle', val: 'Minimize-to-Tray (No Close X)' },
       ],
     },
     {
-      id: 'cpp-helper',
-      title: 'C++ COM Helper (IPolicyConfig)',
-      subtitle: 'Native duoaudio_endpoint.exe',
+      id: 'tier2-capture',
+      title: 'Tier 2: WASAPI Loopback',
+      subtitle: 'loopback-capture (Silence-Patched)',
+      badge: 'Capture Engine',
+      file: 'src/audio_runner.js',
+      description: 'Captures Windows system audio via WASAPI shared loopback (AUDCLNT_STREAMFLAGS_LOOPBACK) in 16-bit 48 kHz stereo linear PCM. Features an automated upstream binary patch that eliminates the -70 dBFS silence suppression defect, maintaining 99.8%+ timeline continuity.',
+      code: `// Audio Child Process Runner (src/audio_runner.js)
+// Runs in dedicated node.exe child process isolated from Electron UI
+const { LoopbackCapture } = require('loopback-capture');
+const { PcmConverter } = require('./pcm_converter');
+
+const pcmConverter = new PcmConverter({ outputFrameSize: 960 }); // 20 ms frames
+
+// Automated patch eliminates -70 dBFS silence suppression threshold
+const capture = new LoopbackCapture({
+  sampleRate: 48000,
+  channels: 2,
+  format: 'S16LE'
+});
+
+capture.on('data', (rawChunk) => {
+  // Aggregates ~10 ms variable chunks into uniform 20 ms Float32 frames
+  const frames = pcmConverter.processChunk(rawChunk);
+  for (const frame of frames) {
+    streamA.write(frame);
+    streamB.write(frame);
+  }
+});
+
+capture.start();`,
+      specs: [
+        { label: 'Capture Backend', val: 'WASAPI Shared Loopback' },
+        { label: 'Format Specification', val: '48 kHz / 2-ch / 16-bit S16LE' },
+        { label: 'Silence Patch', val: 'Upstream -70 dBFS Fix' },
+        { label: 'Process Isolation', val: 'Dedicated node.exe Child' },
+      ],
+    },
+    {
+      id: 'tier2-pacer',
+      title: 'Tier 2: PCM Aggregator & Pacer',
+      subtitle: 'PcmConverter & OutputStream',
+      badge: 'Dual Dispatch',
+      file: 'src/pcm_converter.js',
+      description: 'Converts S16LE chunks into uniform 20 ms Float32 stereo frames (7,680 bytes). Two independent OutputStream instances use bounded ring buffers (200 ms cap) and an independent 10 ms wall-clock rate pacer to prevent native queue inflation and drift.',
+      code: `// PCM Sample Converter & Frame Aggregator (src/pcm_converter.js)
+class PcmConverter {
+  processChunk(chunk) {
+    if (!Buffer.isBuffer(chunk) || chunk.length === 0) return [];
+
+    // Align to 4-byte stereo frame boundary (2 channels * 2 bytes S16LE)
+    const remainder = chunk.length % S16_BYTES_PER_FRAME;
+    const cleanChunk = remainder !== 0 ? chunk.subarray(0, chunk.length - remainder) : chunk;
+
+    this.accumulator = this.accumulator.length > 0 
+      ? Buffer.concat([this.accumulator, cleanChunk]) 
+      : cleanChunk;
+
+    const outputBuffers = [];
+    // Extract uniform 20 ms frames (960 frames = 3,840 S16 bytes -> 7,680 Float32 bytes)
+    while (this.accumulator.length >= this.requiredInputBytes) {
+      const s16Slice = this.accumulator.subarray(0, this.requiredInputBytes);
+      this.accumulator = this.accumulator.subarray(this.requiredInputBytes);
+
+      const float32Array = new Float32Array(this.outputSampleCount);
+      for (let i = 0; i < this.outputSampleCount; i++) {
+        float32Array[i] = s16Slice.readInt16LE(i * 2) / 32768.0;
+      }
+      outputBuffers.push(Buffer.from(float32Array.buffer, float32Array.byteOffset, float32Array.byteLength));
+    }
+    return outputBuffers;
+  }
+}`,
+      specs: [
+        { label: 'Frame Size', val: '20 ms (960 frames Float32LE)' },
+        { label: 'Queue Capacity', val: 'Bounded 200 ms Ring Buffer' },
+        { label: 'Pacing Interval', val: '10 ms High-Resolution Timer' },
+        { label: 'Volume Pacing', val: 'Independent Software Gain (0-1)' },
+      ],
+    },
+    {
+      id: 'tier3-helper',
+      title: 'Tier 3: Native C++ COM Helper',
+      subtitle: 'duoaudio_endpoint.exe',
       badge: 'Endpoint Switcher',
-      description: 'Undocumented Windows Core Audio COM interface IPolicyConfig::SetDefaultEndpoint executed in a lightweight native C++ binary. Instantly shifts audio routes with zero GUI lag and 0 antivirus false-positives.',
-      code: `// Native Windows COM Endpoint Switcher (IPolicyConfig)
-[ComImport, Guid("F8679F50-850A-41CF-9C72-430F290290C8")]
-interface IPolicyConfig {
-    HRESULT SetDefaultEndpoint(
-        [In, MarshalAs(UnmanagedType.LPWStr)] LPCWSTR wszDeviceId,
-        [In] ERole role
-    );
+      file: 'src/native/duoaudio_endpoint.cpp',
+      description: 'Standalone C++ helper utilizing Windows Core Audio COM interfaces (IPolicyConfig and IAudioEndpointVolume). Implements zero-config default endpoint switching and speaker mute lock with automated crash recovery.',
+      code: `// Native Windows Core Audio COM Helper (src/native/duoaudio_endpoint.cpp)
+// MinGW GCC 13.2.0: -O2 -municode -static -s -lole32 -luuid -lpropsys
+#include <windows.h>
+#include <mmdeviceapi.h>
+#include <endpointvolume.h>
+
+const GUID CLSID_CPolicyConfigClient = { 0x870af99c, 0x171d, 0x4f9e, { 0xaf, 0x0d, 0xe6, 0x3d, 0xf4, 0x0c, 0x2b, 0xc9 } };
+const GUID IID_IPolicyConfig = { 0xf8679f50, 0x850a, 0x41cf, { 0x9c, 0x72, 0x43, 0x0f, 0x29, 0x02, 0x90, 0xc8 } };
+
+interface IPolicyConfig : public IUnknown {
+public:
+    virtual HRESULT STDMETHODCALLTYPE SetDefaultEndpoint(PCWSTR wszDeviceId, ERole eRole) = 0;
 };
 
-// Invoked seamlessly without restarting Windows audio service:
-IPolicyConfig* pPolicyConfig = nullptr;
-CoCreateInstance(
-    CLSID_PolicyConfig, NULL, CLSCTX_ALL,
-    IID_IPolicyConfig, (void**)&pPolicyConfig
-);
-pPolicyConfig->SetDefaultEndpoint(targetDeviceId, eConsole);`,
-      specs: [
-        { label: 'Binary Name', val: 'duoaudio_endpoint.exe' },
-        { label: 'Interface', val: 'IPolicyConfig COM' },
-        { label: 'Switch Speed', val: '< 15 ms' },
-        { label: 'Antivirus Safety', val: '0 Heuristic Detections' },
-      ],
-    },
-    {
-      id: 'ring-buffer',
-      title: 'Dual Ring Buffer Pacing',
-      subtitle: 'Sample-Accurate Sync Engine',
-      badge: 'Zero Drift',
-      description: 'Two independent circular ring buffers with dynamic timestamp alignment. Mitigates Bluetooth transmission jitter and compensates for variable hardware clock crystals across different earbud manufacturers.',
-      code: `// Dual Linear PCM Circular Ring Buffer Pacing
-class DualAudioRingBuffer {
-public:
-    void Write(const uint8_t* pcmData, size_t bytes) {
-        std::lock_guard<std::mutex> lock(m_mutex);
-        m_bufferA.Push(pcmData, bytes);
-        m_bufferB.Push(pcmData, bytes);
-        SyncPhaseClocks(); // Compensates for Bluetooth A2DP drift
+// Set default playback endpoint across Console, Multimedia, Communications
+HRESULT SetDefaultEndpoint(const std::wstring& deviceId) {
+    ComPtr<IPolicyConfig> policyConfig;
+    HRESULT hr = CoCreateInstance(CLSID_CPolicyConfigClient, NULL, CLSCTX_ALL, IID_IPolicyConfig, (void**)&policyConfig);
+    if (SUCCEEDED(hr)) {
+        policyConfig->SetDefaultEndpoint(deviceId.c_str(), eConsole);
+        policyConfig->SetDefaultEndpoint(deviceId.c_str(), eMultimedia);
+        policyConfig->SetDefaultEndpoint(deviceId.c_str(), eCommunications);
     }
-    
-    void SyncPhaseClocks() {
-        int64_t drift = m_bufferA.GetReadCursor() - m_bufferB.GetReadCursor();
-        if (std::abs(drift) > DRIFT_THRESHOLD_SAMPLES) {
-            InterpolatePacing(drift); // Real-time sample pacing
-        }
-    }
-};`,
+    return hr;
+}`,
       specs: [
-        { label: 'Buffer Type', val: 'Lock-Free Circular Ring' },
-        { label: 'Channel Count', val: '2 Stereo Streams (4 ch)' },
-        { label: 'Phase Deviation', val: '0.0 ms relative drift' },
-        { label: 'Silence Handling', val: 'Zero-Fill Packet Injector' },
-      ],
-    },
-    {
-      id: 'electron',
-      title: 'Decoupled Electron Supervisor',
-      subtitle: 'Node.js 22 & Electron 33',
-      badge: 'Architecture',
-      description: 'Modern decoupled desktop architecture. The UI runs on an isolated renderer process while native audio and COM processes run in dedicated low-priority worker threads with automatic crash recovery.',
-      code: `// Electron Main Process Lifecycle Supervisor
-import { app, ipcMain } from 'electron';
-import { spawn } from 'child_process';
-
-let endpointHelper = null;
-
-app.on('ready', async () => {
-    // 1. Snapshot user's initial default playback endpoint
-    const originalEndpoint = await queryDefaultPlaybackDevice();
-    
-    // 2. Register guaranteed teardown hook
-    app.on('will-quit', () => {
-        revertToOriginalEndpoint(originalEndpoint);
-        unmuteLaptopSpeakers();
-    });
-});`,
-      specs: [
-        { label: 'Framework', val: 'Electron 33 + Node.js 22' },
-        { label: 'IPC Mechanism', val: 'Context-Isolated IPC' },
-        { label: 'Teardown Safety', val: '100% Guaranteed Revert' },
-        { label: 'Memory Footprint', val: '~ 45 MB background' },
+        { label: 'Binary Output', val: 'duoaudio_endpoint.exe' },
+        { label: 'Compiler Target', val: 'MinGW GCC 13.2.0 (x64 Static)' },
+        { label: 'Core Interfaces', val: 'IPolicyConfig, IAudioEndpointVolume' },
+        { label: 'Security Model', val: 'User-Mode Only (0 Admin / 0 Drivers)' },
       ],
     },
   ];
@@ -141,16 +191,21 @@ app.on('ready', async () => {
       <div className="absolute top-1/2 right-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Single Clean Tag without multi-captioning clutter */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-mono text-purple-400">
             <Code2 className="w-3.5 h-3.5" />
-            <span>Under The Hood • Systems Architecture</span>
+            <span>Systems Architecture • Grounded Engineering</span>
           </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mt-4">
+            3-Tier Process Architecture
+          </h2>
+          <p className="text-gray-400 mt-4 text-base sm:text-lg max-w-2xl mx-auto">
+            Architected to isolate real-time Windows audio processing from UI rendering, crash risks, and driver instability.
+          </p>
         </div>
 
         {/* Tab Controls */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10 max-w-4xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-2 mb-10 max-w-5xl mx-auto">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -202,7 +257,7 @@ app.on('ready', async () => {
 
               <div className="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300 flex items-center space-x-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Production tested on Windows 11 22H2, 23H2 & 24H2</span>
+                <span>Production tested on Windows 11 (22H2, 23H2 & 24H2)</span>
               </div>
             </div>
 
@@ -218,10 +273,7 @@ app.on('ready', async () => {
                       <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
                     </div>
                     <span className="text-xs font-mono text-gray-400 ml-2">
-                      {activeTab === 'wasapi' && 'wasapi_loopback.cpp'}
-                      {activeTab === 'cpp-helper' && 'endpoint_helper.cpp'}
-                      {activeTab === 'ring-buffer' && 'audio_ring_buffer.hpp'}
-                      {activeTab === 'electron' && 'main_supervisor.ts'}
+                      {currentTab.file}
                     </span>
                   </div>
 

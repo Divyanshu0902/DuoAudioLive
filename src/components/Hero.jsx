@@ -65,7 +65,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed font-normal"
           >
-            Watch movies, share music, and listen together on Windows 11. No audio splitters. No audio delay. Just pure, synchronized sound with your laptop speakers automatically muted.
+            Watch movies, share music, and listen together on Windows 11. No audio splitters. Low-latency synchronized playback. Just pure, synchronized sound with your laptop speakers automatically muted.
           </motion.p>
 
           {/* Action CTAs */}

@@ -38,7 +38,7 @@ export default function HowItWorks() {
       icon: <Play className="w-6 h-6 text-emerald-400" />,
       previewTitle: 'Audio Streaming Active',
       previewItems: [
-        { name: 'Dual Sound Sync', status: 'Playing in Lockstep', color: 'text-emerald-400' },
+        { name: 'Dual Sound Sync', status: 'Parallel Dual Streaming', color: 'text-emerald-400' },
         { name: 'Physical Laptop Speakers', status: 'Silenced (0%)', color: 'text-blue-400' },
       ],
     },
@@ -148,7 +148,7 @@ export default function HowItWorks() {
                   <span>
                     {activeStep === 0 && 'Windows connects both headsets simultaneously'}
                     {activeStep === 1 && 'DuoAudio pairs endpoints automatically'}
-                    {activeStep === 2 && 'Stream synchronized with zero delay'}
+                    {activeStep === 2 && 'Dual streams running in parallel'}
                   </span>
                 </div>
                 {activeStep < 2 ? (

@@ -117,7 +117,7 @@ export default function AppPreviewSection() {
             {/* Bottom trust footnote */}
             <div className="pt-2 flex items-center space-x-2 text-xs font-mono text-gray-400">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Runs quietly in system tray with sub-0.5% CPU overhead</span>
+              <span>Runs quietly in the background with minimal system tray footprint</span>
             </div>
           </div>
 
