@@ -210,30 +210,55 @@ export default function NextStepsPage() {
 
         {/* SECTION 2: TRANSPARENCY & PROOF OF SAFETY */}
         <div id="why-warning" className="mb-20 pt-16 border-t border-white/[0.08] scroll-mt-20">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-              Why Does Windows Show This Warning?
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+              <span className="text-white block">Why Does Windows Show This Warning?</span>
+              <span className="text-gray-400 block mt-1.5 sm:mt-2">And How Is It Safe to Run?</span>
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             
-            {/* Trust Point 1: Reputation Gate Explained */}
+            {/* Trust Point 1: Indie Project (No Expensive Certificate) */}
             <div className="rounded-2xl p-6 bg-white/[0.02] border border-white/[0.08] flex items-start space-x-4">
               <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-300 shrink-0 mt-0.5">
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <div className="space-y-1">
                 <h3 className="text-base font-bold text-white tracking-tight">
-                  Automated Reputation Filter
+                  Indie Project, No Commercial Certificate
                 </h3>
                 <p className="text-sm text-gray-400 leading-relaxed font-normal">
-                  Microsoft Defender SmartScreen flags newly published executables until thousands of machines install them. It is an automated volume gate, not a malware detection alert.
+                  DuoAudio is an independent, free open-source project. Because it doesn&apos;t carry an <span className="text-gray-200 font-medium">expensive</span> annual enterprise <span className="text-gray-200 font-medium">certificate ($400–$600/year)</span>, Windows automatically flags it as unrecognized until enough people install it.
                 </p>
               </div>
             </div>
 
-            {/* Trust Point 2: 100% Free & Open Source */}
+            {/* Trust Point 2: Clean Security Scans */}
+            <div className="rounded-2xl p-6 bg-white/[0.02] border border-white/[0.08] flex items-start space-x-4">
+              <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-300 shrink-0 mt-0.5">
+                <Check className="w-4 h-4" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-base font-bold text-white tracking-tight">
+                  Clean Security Scans
+                </h3>
+                <p className="text-sm text-gray-400 leading-relaxed font-normal">
+                  The official installer contains zero bundled software, toolbars, or background updaters. You can scan the file and <span className="text-gray-200 font-medium">verify yourself</span> across 70+ top antivirus engines on <span className="text-gray-200 font-medium">VirusTotal</span>.
+                </p>
+                <a
+                  href="https://www.virustotal.com/gui/file/64d0cb6230fa731bf5a156469c265db4a0195e6f26eb316110ba79b6d1121b25/detection"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-1.5 text-xs text-[#9AA7FF] hover:underline pt-1 font-medium"
+                >
+                  <span>View live report on VirusTotal</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+
+            {/* Trust Point 3: 100% Free & Open Source */}
             <div className="rounded-2xl p-6 bg-white/[0.02] border border-white/[0.08] flex items-start space-x-4">
               <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-300 shrink-0 mt-0.5">
                 <Code2 className="w-4 h-4" />
@@ -257,7 +282,7 @@ export default function NextStepsPage() {
               </div>
             </div>
 
-            {/* Trust Point 3: Zero Telemetry & 100% Local */}
+            {/* Trust Point 4: Zero Telemetry & 100% Local */}
             <div className="rounded-2xl p-6 bg-white/[0.02] border border-white/[0.08] flex items-start space-x-4">
               <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-300 shrink-0 mt-0.5">
                 <Lock className="w-4 h-4" />
@@ -267,22 +292,7 @@ export default function NextStepsPage() {
                   Zero Telemetry • 100% On-Device
                 </h3>
                 <p className="text-sm text-gray-400 leading-relaxed font-normal">
-                  DuoAudio operates strictly offline using Windows native WASAPI audio streams. It contains no telemetry, tracking pixels, accounts, or analytics.
-                </p>
-              </div>
-            </div>
-
-            {/* Trust Point 4: Clean Antivirus Status */}
-            <div className="rounded-2xl p-6 bg-white/[0.02] border border-white/[0.08] flex items-start space-x-4">
-              <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-300 shrink-0 mt-0.5">
-                <Check className="w-4 h-4" />
-              </div>
-              <div className="space-y-1">
-                <h3 className="text-base font-bold text-white tracking-tight">
-                  Clean Security Scans
-                </h3>
-                <p className="text-sm text-gray-400 leading-relaxed font-normal">
-                  The official installer has been scanned by all major security vendors. It contains zero bundled software, toolbars, or background updaters.
+                  DuoAudio operates strictly offline using Windows native WASAPI audio streams. It contains no telemetry, tracking pixels, accounts, or analytics — verifiable by observing 0 KB/s network activity in Windows Task Manager.
                 </p>
               </div>
             </div>
@@ -290,42 +300,48 @@ export default function NextStepsPage() {
           </div>
 
           {/* Cryptographic Verification Box */}
-          <div className="rounded-2xl p-6 bg-[#0B0D13] border border-white/[0.08] shadow-2xl">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
-              <div className="flex items-center space-x-2.5">
-                <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center text-gray-300">
-                  <Terminal className="w-4 h-4" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-white">Cryptographic File Verification</h4>
-                  <p className="text-xs text-gray-400">Run in PowerShell to verify byte-by-byte integrity</p>
-                </div>
+          <div className="rounded-2xl p-5 sm:p-6 bg-white/[0.02] border border-white/[0.08]">
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-300 shrink-0">
+                <Terminal className="w-4 h-4 text-gray-300" />
               </div>
-
-              {/* Copy Command Button */}
-              <button
-                onClick={handleCopyCmd}
-                className="px-3 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.1] text-xs font-mono text-gray-300 hover:text-white transition-all flex items-center space-x-2"
-              >
-                {copiedCmd ? <Check className="w-3.5 h-3.5 text-[#9AA7FF]" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copiedCmd ? 'Command Copied' : 'Copy PowerShell Command'}</span>
-              </button>
+              <div>
+                <h4 className="text-sm font-semibold text-white tracking-tight">Verify Installer Integrity</h4>
+                <p className="text-xs text-gray-400 font-normal">Compare SHA-256 hash via Windows PowerShell</p>
+              </div>
             </div>
 
-            {/* Terminal Command Output Box */}
-            <div className="bg-[#050608] rounded-xl p-3.5 border border-white/[0.05] font-mono text-xs overflow-x-auto space-y-2">
-              <div className="text-gray-400">
-                <span className="text-[#9AA7FF]">PS C:\Users\Downloads&gt;</span> {verifyCmd}
+            {/* Clean 2-Row Monospace Verification Items */}
+            <div className="space-y-2 font-mono text-xs">
+              {/* Row 1: PowerShell Command */}
+              <div className="flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/[0.06]">
+                <div className="flex items-center space-x-2.5 min-w-0">
+                  <span className="text-[11px] font-semibold text-[#9AA7FF] shrink-0 uppercase tracking-wider">Command</span>
+                  <span className="text-gray-300 truncate select-all">{verifyCmd}</span>
+                </div>
+                <button
+                  onClick={handleCopyCmd}
+                  className="shrink-0 px-2.5 py-1 rounded-md bg-white/[0.06] hover:bg-white/[0.12] text-gray-300 hover:text-white transition-all flex items-center space-x-1.5 text-[11px]"
+                  title="Copy PowerShell command"
+                >
+                  {copiedCmd ? <Check className="w-3 h-3 text-[#9AA7FF]" /> : <Copy className="w-3 h-3" />}
+                  <span>{copiedCmd ? 'Copied' : 'Copy Command'}</span>
+                </button>
               </div>
-              <div className="text-gray-400">
-                <span className="text-gray-500">Expected SHA-256:</span>
-                <span className="text-white ml-2 select-all font-semibold break-all">{checksum}</span>
+
+              {/* Row 2: Expected SHA-256 Hash */}
+              <div className="flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/[0.06]">
+                <div className="flex items-center space-x-2.5 min-w-0">
+                  <span className="text-[11px] font-semibold text-gray-400 shrink-0 uppercase tracking-wider">SHA-256</span>
+                  <span className="text-gray-300 truncate select-all">{checksum}</span>
+                </div>
                 <button
                   onClick={handleCopyHash}
-                  className="ml-2 text-[#9AA7FF] hover:underline"
-                  title="Copy SHA-256"
+                  className="shrink-0 px-2.5 py-1 rounded-md bg-white/[0.06] hover:bg-white/[0.12] text-gray-300 hover:text-white transition-all flex items-center space-x-1.5 text-[11px]"
+                  title="Copy SHA-256 hash"
                 >
-                  {copiedHash ? '(Copied!)' : '(Copy Hash)'}
+                  {copiedHash ? <Check className="w-3 h-3 text-[#9AA7FF]" /> : <Copy className="w-3 h-3" />}
+                  <span>{copiedHash ? 'Copied' : 'Copy Hash'}</span>
                 </button>
               </div>
             </div>
