@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import DocsPage from './pages/DocsPage';
 import TroubleshootingPage from './pages/TroubleshootingPage';
+import NextStepsPage from './pages/NextStepsPage';
 
 // Scroll management component for hashes and route transitions
 function ScrollHandler() {
@@ -42,6 +43,8 @@ export default function App() {
             <Route path="/architecture" element={<DocsPage />} />
             <Route path="/docs" element={<DocsPage />} />
             <Route path="/troubleshooting" element={<TroubleshootingPage />} />
+            <Route path="/download/next-steps" element={<NextStepsPage />} />
+            <Route path="/download" element={<NextStepsPage />} />
             {/* Fallback to home */}
             <Route path="*" element={<HomePage />} />
           </Routes>

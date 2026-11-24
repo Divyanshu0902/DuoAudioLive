@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { Github, Check } from 'lucide-react';
 
 export default function Hero() {
   const [downloadState, setDownloadState] = useState('idle');
+  const navigate = useNavigate();
 
   const handleDownload = () => {
     if (downloadState === 'downloading') return;
@@ -17,10 +19,10 @@ export default function Hero() {
     link.click();
     document.body.removeChild(link);
 
-    // Reset back to idle state after 3.5s
+    // Smoothly route to next steps page
     setTimeout(() => {
-      setDownloadState('idle');
-    }, 3500);
+      navigate('/download/next-steps');
+    }, 600);
   };
 
   return (

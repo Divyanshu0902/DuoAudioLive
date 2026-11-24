@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { Check, Copy, ShieldCheck } from 'lucide-react';
 
 export default function DownloadSection() {
   const [copiedChecksum, setCopiedChecksum] = useState(false);
   const [downloadState, setDownloadState] = useState('idle');
+  const navigate = useNavigate();
   const checksum = '64D0CB6230FA731BF5A156469C265DB4A0195E6F26EB316110BA79B6D1121B25';
 
   const handleCopyChecksum = () => {
@@ -25,8 +27,8 @@ export default function DownloadSection() {
     document.body.removeChild(link);
 
     setTimeout(() => {
-      setDownloadState('idle');
-    }, 3500);
+      navigate('/download/next-steps');
+    }, 600);
   };
 
   return (
