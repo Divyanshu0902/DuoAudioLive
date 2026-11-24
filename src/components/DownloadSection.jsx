@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Copy, ShieldCheck } from 'lucide-react';
-import { triggerConfetti } from '../utils/confetti';
 
 export default function DownloadSection() {
   const [copiedChecksum, setCopiedChecksum] = useState(false);
+  const [downloadState, setDownloadState] = useState('idle');
   const checksum = '64D0CB6230FA731BF5A156469C265DB4A0195E6F26EB316110BA79B6D1121B25';
 
   const handleCopyChecksum = () => {
     navigator.clipboard.writeText(checksum);
     setCopiedChecksum(true);
-    triggerConfetti(0.5, 0.7);
     setTimeout(() => setCopiedChecksum(false), 2000);
   };
 
   const handleDownload = () => {
-    triggerConfetti(0.5, 0.4);
-    window.location.href = 'https://github.com/Divyanshu0902/DuoAudio/releases/download/v1.0.2/DuoAudio.Setup.1.0.2.exe';
+    if (downloadState === 'downloading') return;
+    setDownloadState('downloading');
+
+    const link = document.createElement('a');
+    link.href = 'https://github.com/Divyanshu0902/DuoAudio/releases/download/v1.0.2/DuoAudio.Setup.1.0.2.exe';
+    link.download = 'DuoAudio.Setup.1.0.2.exe';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    setTimeout(() => {
+      setDownloadState('idle');
+    }, 3500);
   };
 
   return (
@@ -36,15 +47,43 @@ export default function DownloadSection() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
           <button
             onClick={handleDownload}
-            className="w-full sm:w-auto px-8 py-4 rounded-full bg-white hover:bg-gray-200 text-black font-semibold text-base transition-all shadow-lg flex items-center justify-center space-x-2.5 active:scale-[0.99]"
+            className="w-full sm:w-auto px-8 py-4 rounded-full bg-white hover:bg-gray-200 text-black font-semibold text-base transition-all shadow-lg flex items-center justify-center active:scale-[0.99] min-w-[290px]"
           >
-            <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-              <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.949-1.801" />
-            </svg>
-            <span>Download for Windows 11</span>
-            <span className="text-xs bg-black/10 px-2 py-0.5 rounded-full font-mono text-black/80">
-              v1.0.2 • Free
-            </span>
+            <AnimatePresence mode="wait">
+              {downloadState === 'downloading' ? (
+                <motion.div
+                  key="downloading"
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
+                  transition={{ duration: 0.15 }}
+                  className="flex items-center space-x-2.5"
+                >
+                  <Check className="w-5 h-5 text-[#5C6CDB] stroke-[2.5]" />
+                  <span>Starting download...</span>
+                  <span className="text-xs bg-[#5C6CDB]/15 text-[#4754B5] font-mono px-2 py-0.5 rounded-full font-semibold">
+                    Setup.exe
+                  </span>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="idle"
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
+                  transition={{ duration: 0.15 }}
+                  className="flex items-center space-x-2.5"
+                >
+                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.949-1.801" />
+                  </svg>
+                  <span>Download for Windows 11</span>
+                  <span className="text-xs bg-black/10 px-2 py-0.5 rounded-full font-mono text-black/80">
+                    v1.0.2 • Free
+                  </span>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </button>
         </div>
 

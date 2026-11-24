@@ -1,15 +1,26 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Github } from 'lucide-react';
-import { triggerConfetti } from '../utils/confetti';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Github, Check } from 'lucide-react';
 
 export default function Hero() {
+  const [downloadState, setDownloadState] = useState('idle');
+
   const handleDownload = () => {
-    triggerConfetti(0.5, 0.4);
-    const target = document.getElementById('download');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (downloadState === 'downloading') return;
+    setDownloadState('downloading');
+
+    // Trigger direct download of installer
+    const link = document.createElement('a');
+    link.href = 'https://github.com/Divyanshu0902/DuoAudio/releases/download/v1.0.2/DuoAudio.Setup.1.0.2.exe';
+    link.download = 'DuoAudio.Setup.1.0.2.exe';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Reset back to idle state after 3.5s
+    setTimeout(() => {
+      setDownloadState('idle');
+    }, 3500);
   };
 
   return (
@@ -49,15 +60,43 @@ export default function Hero() {
           >
             <button
               onClick={handleDownload}
-              className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white hover:bg-gray-200 text-black font-semibold text-sm transition-all shadow-sm flex items-center justify-center space-x-2.5 active:scale-[0.99]"
+              className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white hover:bg-gray-200 text-black font-semibold text-sm transition-all shadow-sm flex items-center justify-center active:scale-[0.99] min-w-[270px]"
             >
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.949-1.801" />
-              </svg>
-              <span>Download for Windows 11</span>
-              <span className="text-xs bg-black/10 px-2 py-0.5 rounded-full font-mono text-black/75">
-                v1.0.2
-              </span>
+              <AnimatePresence mode="wait">
+                {downloadState === 'downloading' ? (
+                  <motion.div
+                    key="downloading"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.15 }}
+                    className="flex items-center space-x-2"
+                  >
+                    <Check className="w-4 h-4 text-[#5C6CDB] stroke-[2.5]" />
+                    <span>Starting download...</span>
+                    <span className="text-xs bg-[#5C6CDB]/15 text-[#4754B5] font-mono px-2 py-0.5 rounded-full font-semibold">
+                      Setup.exe
+                    </span>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="idle"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.15 }}
+                    className="flex items-center space-x-2.5"
+                  >
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.949-1.801" />
+                    </svg>
+                    <span>Download for Windows 11</span>
+                    <span className="text-xs bg-black/10 px-2 py-0.5 rounded-full font-mono text-black/75">
+                      v1.0.2
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </button>
 
             <a
@@ -73,16 +112,14 @@ export default function Hero() {
         </div>
 
         {/* Clean, Razor-Sharp 2D Visual Stage */}
-        <div className="relative max-w-4xl mx-auto">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/80 border border-white/[0.08] bg-[#0A0D14]">
-            {/* Native 2D Image */}
-            <img
-              src="/assets/hero-mockup.jpg"
-              alt="DuoAudio Desktop with wireless earbuds"
-              className="w-full h-auto object-cover object-center block select-none"
-              style={{ imageRendering: '-webkit-optimize-contrast' }}
-            />
-          </div>
+        <div className="relative max-w-5xl mx-auto flex justify-center">
+          <img
+            src="/assets/transparent-bg-banner2.png"
+            // src="/assets/hero-banner.png"
+            alt="DuoAudio Desktop with wireless earbuds"
+            className="w-full h-auto object-contain block select-none drop-shadow-2xl"
+            style={{ imageRendering: '-webkit-optimize-contrast' }}
+          />
         </div>
       </div>
     </section>

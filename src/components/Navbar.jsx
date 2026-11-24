@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Menu, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ProductLogo from './ProductLogo';
-import { triggerConfetti } from '../utils/confetti';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -33,7 +32,6 @@ export default function Navbar() {
 
   const handleDownloadClick = () => {
     setMobileMenuOpen(false);
-    triggerConfetti(0.5, 0.2);
     if (location.pathname !== '/') {
       navigate('/#download');
     } else {
