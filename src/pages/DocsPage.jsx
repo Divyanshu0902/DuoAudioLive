@@ -86,19 +86,22 @@ export default function DocsPage() {
 
   // Sync hash from URL if present
   useEffect(() => {
-    if (location.hash) {
+    if (location.hash && location.hash !== '#section-02-architecture') {
       const anchor = location.hash.replace('#', '');
       setActiveAnchorId(anchor);
       setTimeout(() => {
         const el = document.getElementById(anchor);
         if (el) {
           el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'instant' });
         }
       }, 100);
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setActiveAnchorId(null);
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
-  }, [location.hash, activeSectionId]);
+  }, [location.pathname, location.hash, activeSectionId]);
 
   // Navigate to section & anchor
   const handleSelectTopic = (sectionId, anchorId) => {
@@ -233,10 +236,10 @@ export default function DocsPage() {
                               <button
                                 key={topic.id}
                                 onClick={() => handleSelectTopic(section.id, topic.id)}
-                                className={`w-full text-left py-1 px-2 rounded text-[11px] font-mono transition-colors block truncate ${
+                                className={`w-full text-left py-1.5 px-2 rounded-lg text-[12px] font-sans transition-colors block truncate ${
                                   isTopicActive
                                     ? 'text-[#9AA7FF] bg-white/[0.04] font-medium'
-                                    : 'text-gray-400 hover:text-gray-200'
+                                    : 'text-gray-400 hover:text-gray-200 hover:bg-white/[0.02]'
                                 }`}
                               >
                                 {topic.title}
@@ -294,6 +297,7 @@ export default function DocsPage() {
               =================================================================== */}
           <main 
             ref={contentAreaRef}
+            id={activeSectionId}
             className="flex-1 min-w-0 px-4 sm:px-8 lg:px-12 py-8 lg:py-10 pb-24"
           >
             <div className="max-w-4xl mx-auto space-y-6">
@@ -310,11 +314,11 @@ export default function DocsPage() {
               )}
 
               {/* Section Header */}
-              <div className="space-y-2 pb-5 border-b border-white/[0.08]">
-                <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-semibold tracking-tight text-white leading-tight">
+              <div className="space-y-2.5 pb-5 border-b border-white/[0.08]">
+                <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-bold font-display tracking-tight text-white leading-[1.2]">
                   {currentArticle.title}
                 </h1>
-                <p className="text-base sm:text-lg text-gray-400 leading-relaxed font-sans pt-1">
+                <p className="text-base sm:text-lg text-gray-300 leading-[1.75] font-sans pt-1">
                   {currentArticle.lead}
                 </p>
               </div>
@@ -329,7 +333,7 @@ export default function DocsPage() {
                   >
                     {sec.title && (
                       <div className="flex items-center justify-between group">
-                        <h2 className="text-xl sm:text-2xl font-semibold text-gray-100 tracking-tight flex items-center gap-2">
+                        <h2 className="text-xl sm:text-2xl font-bold font-display text-gray-100 tracking-tight flex items-center gap-2">
                           <span>{sec.title}</span>
                         </h2>
                         <button
@@ -408,7 +412,7 @@ export default function DocsPage() {
                         e.preventDefault();
                         handleSelectTopic(activeSectionId, item.id);
                       }}
-                      className={`text-xs block font-mono transition-colors leading-relaxed ${
+                      className={`text-[12.5px] block font-sans transition-colors leading-relaxed ${
                         isActive
                           ? 'text-[#9AA7FF] font-medium pl-2 border-l-2 border-[#5C6CDB]'
                           : 'text-gray-400 hover:text-gray-200 pl-2 border-l-2 border-transparent'

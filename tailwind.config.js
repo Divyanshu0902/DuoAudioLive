@@ -13,7 +13,8 @@ export default {
         surface: 'rgba(255, 255, 255, 0.03)',
         'surface-border': 'rgba(255, 255, 255, 0.08)',
         periwinkle: {
-          DEFAULT: '#5C6CDB',
+          DEFAULT: '#9AA7FF',
+          brand: '#5C6CDB',
           hover: '#505FC8',
           active: '#4754B5',
           slider: '#6473F2',
@@ -25,6 +26,8 @@ export default {
       },
       fontFamily: {
         sans: [
+          '"Optimistic Text"',
+          '"Plus Jakarta Sans"',
           'Inter',
           '-apple-system',
           'BlinkMacSystemFont',
@@ -35,7 +38,20 @@ export default {
           'Arial',
           'sans-serif',
         ],
-        mono: ['SF Mono', 'JetBrains Mono', 'Fira Code', 'monospace'],
+        display: [
+          '"Optimistic Display"',
+          '"Plus Jakarta Sans"',
+          'Inter',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"SF Pro Display"',
+          '"Segoe UI"',
+          'Roboto',
+          'Helvetica',
+          'Arial',
+          'sans-serif',
+        ],
+        mono: ['"JetBrains Mono"', 'SF Mono', 'Fira Code', 'monospace'],
       },
       animation: {
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',

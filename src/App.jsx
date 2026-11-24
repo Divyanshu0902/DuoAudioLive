@@ -17,10 +17,12 @@ function ScrollHandler() {
         const el = document.querySelector(hash);
         if (el) {
           el.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'instant' });
         }
       }, 50);
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
   }, [pathname, hash]);
 

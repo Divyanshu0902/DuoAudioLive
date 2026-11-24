@@ -196,7 +196,7 @@ export const DOCS_ARTICLES = {
     subtitle: 'Process Boundaries & Containment',
     lead: (
       <>
-        DuoAudio uses a <span className="text-white font-medium">multi-process architecture</span> engineered to isolate real-time audio processing from UI rendering, crash risks, and third-party driver instability.
+        DuoAudio uses a <span className="text-[#9AA7FF] font-medium" style={{ color: '#9AA7FF' }}>multi-process architecture</span> engineered to isolate real-time audio processing from UI rendering, crash risks, and third-party driver instability.
       </>
     ),
     toc: [
@@ -224,16 +224,16 @@ export const DOCS_ARTICLES = {
             </p>
             <ul className="space-y-3 pl-2">
               <li className="flex items-start gap-2.5">
-                <span className="text-[#9AA7FF] mt-1 shrink-0 font-bold">•</span>
-                <span><strong className="text-gray-100 font-semibold">Tier 1 — Desktop Shell & Supervisor (Electron Main Process):</strong> Runs <code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">DuoAudio.exe</code>. Manages application lifecycle, enforces the single-instance lock, manages the Windows System Tray, and supervises the audio runner child process.</span>
+                <span className="text-[#9AA7FF] mt-1 shrink-0 font-bold" style={{ color: '#9AA7FF' }}>•</span>
+                <span><span className="text-[#9AA7FF] font-semibold" style={{ color: '#9AA7FF' }}>Tier 1 — Desktop Shell & Supervisor (Electron Main Process):</span> Runs <code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">DuoAudio.exe</code>. Manages application lifecycle, enforces the single-instance lock, manages the Windows System Tray, and supervises the audio runner child process.</span>
               </li>
               <li className="flex items-start gap-2.5">
-                <span className="text-[#2DD4BF] mt-1 shrink-0 font-bold">•</span>
-                <span><strong className="text-gray-100 font-semibold">Tier 2 — Dedicated Audio Runner (System Node.js Child Process):</strong> Runs <code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">node.exe</code> executing <code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">src/audio_runner.js</code>. Ingests WASAPI loopback capture with PID exclusion, converts PCM formats, maintains bounded ring buffers, and executes 10ms rate-pacing loops.</span>
+                <span className="text-[#9AA7FF] mt-1 shrink-0 font-bold" style={{ color: '#9AA7FF' }}>•</span>
+                <span><span className="text-[#9AA7FF] font-semibold" style={{ color: '#9AA7FF' }}>Tier 2 — Dedicated Audio Runner (System Node.js Child Process):</span> Runs <code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">node.exe</code> executing <code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">src/audio_runner.js</code>. Ingests WASAPI loopback capture with PID exclusion, converts PCM formats, maintains bounded ring buffers, and executes 10ms rate-pacing loops.</span>
               </li>
               <li className="flex items-start gap-2.5">
-                <span className="text-[#0078D4] mt-1 shrink-0 font-bold">•</span>
-                <span><strong className="text-gray-100 font-semibold">Tier 3 — Native Windows COM Helper:</strong> Runs <code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">duoaudio_endpoint.exe</code> (compiled from C++ with MinGW GCC 13.2.0). Interacts directly with Windows Core Audio COM interfaces for default route switching and hardware mute clamping.</span>
+                <span className="text-[#9AA7FF] mt-1 shrink-0 font-bold" style={{ color: '#9AA7FF' }}>•</span>
+                <span><span className="text-[#9AA7FF] font-semibold" style={{ color: '#9AA7FF' }}>Tier 3 — Native Windows COM Helper:</span> Runs <code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">duoaudio_endpoint.exe</code> (compiled from C++ with MinGW GCC 13.2.0). Interacts directly with Windows Core Audio COM interfaces for default route switching and hardware mute clamping.</span>
               </li>
             </ul>
           </div>

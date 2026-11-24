@@ -30,6 +30,13 @@ export default function Navbar() {
     }
   };
 
+  const handleArchitectureClick = () => {
+    setMobileMenuOpen(false);
+    if (location.pathname === '/architecture' || location.pathname === '/docs') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const handleDownloadClick = () => {
     setMobileMenuOpen(false);
     if (location.pathname !== '/') {
@@ -71,7 +78,8 @@ export default function Navbar() {
               Features
             </button>
             <Link
-              to="/architecture#section-02-architecture"
+              to="/architecture"
+              onClick={handleArchitectureClick}
               className={`px-3.5 py-1.5 text-xs rounded-full transition-colors ${
                 location.pathname === '/architecture' || location.pathname === '/docs'
                   ? 'bg-white/[0.08] text-white font-medium'
@@ -139,8 +147,8 @@ export default function Navbar() {
               Features
             </button>
             <Link
-              to="/architecture#section-02-architecture"
-              onClick={() => setMobileMenuOpen(false)}
+              to="/architecture"
+              onClick={handleArchitectureClick}
               className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/[0.04] rounded-lg"
             >
               Architecture

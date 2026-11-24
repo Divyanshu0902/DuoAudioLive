@@ -52,7 +52,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/architecture#section-02-architecture" className="hover:text-white transition-colors">
+                <Link to="/architecture" className="hover:text-white transition-colors">
                   Architecture & Systems
                 </Link>
               </li>
