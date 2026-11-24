@@ -169,7 +169,7 @@ export default function DocsPage() {
       </div>
 
       {/* Main 3-Column Layout Container */}
-      <div className="max-w-[96rem] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex relative">
           
           {/* ===================================================================
@@ -298,9 +298,9 @@ export default function DocsPage() {
           <main 
             ref={contentAreaRef}
             id={activeSectionId}
-            className="flex-1 min-w-0 px-4 sm:px-8 lg:px-12 py-8 lg:py-10 pb-24"
+            className="flex-1 min-w-0 px-4 sm:px-6 lg:pl-8 lg:pr-8 py-8 lg:py-10 pb-24"
           >
-            <div className="max-w-4xl mx-auto space-y-6">
+            <div className="w-full space-y-6">
               {/* Show Sidebar button when collapsed */}
               {sidebarCollapsed && (
                 <button
@@ -314,7 +314,7 @@ export default function DocsPage() {
               )}
 
               {/* Section Header */}
-              <div className="space-y-2.5 pb-5 border-b border-white/[0.08]">
+              <div className="space-y-2.5 pb-2">
                 <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-bold font-display tracking-tight text-white leading-[1.2]">
                   {currentArticle.title}
                 </h1>

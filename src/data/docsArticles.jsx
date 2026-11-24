@@ -318,44 +318,44 @@ export const DOCS_ARTICLES = {
         id: 'arch-principles',
         title: 'Architectural Design Principles',
         content: (
-          <div className="space-y-4 text-gray-300 leading-relaxed text-[16px]">
+          <div className="space-y-6 text-gray-300 leading-relaxed text-[16px]">
             <p>
-              DuoAudio's architecture is guided by five core systems-engineering principles:
+              DuoAudio's architecture is guided by four core systems-engineering principles:
             </p>
-            <div className="space-y-3">
-              <div className="p-4 rounded-xl bg-[#181A25] border border-[#282C3A]">
-                <h4 className="text-sm font-semibold text-gray-100 mb-1 flex items-center gap-2">
-                  <span className="text-[#9AA7FF]">1. Native Failure Isolation:</span>
-                </h4>
-                <p className="text-xs text-gray-300 leading-relaxed">
-                  Third-party audio drivers and Bluetooth stacks are prone to unpredictable crashes during sudden hardware disconnection. Isolating native C++ libraries (<code className="text-gray-200">loopback-capture</code>, <code className="text-gray-200">audify</code>) inside an external child process guarantees that driver panics never crash the desktop window or leave system audio in an unrecoverable state.
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-semibold text-[#9AA7FF] mb-2 font-display">
+                  1. Native Failure Isolation
+                </h3>
+                <p className="text-gray-300 text-[16px] leading-relaxed">
+                  Third-party audio drivers and Bluetooth stacks are prone to unpredictable crashes during sudden hardware disconnection. Isolating native C++ libraries (<code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">loopback-capture</code>, <code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">audify</code>) inside an external child process guarantees that driver panics never crash the desktop window or leave system audio in an unrecoverable state.
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-[#181A25] border border-[#282C3A]">
-                <h4 className="text-sm font-semibold text-gray-100 mb-1 flex items-center gap-2">
-                  <span className="text-[#2DD4BF]">2. Strict Bounded Queuing:</span>
-                </h4>
-                <p className="text-xs text-gray-300 leading-relaxed">
+              <div>
+                <h3 className="text-lg font-semibold text-[#9AA7FF] mb-2 font-display">
+                  2. Strict Bounded Queuing
+                </h3>
+                <p className="text-gray-300 text-[16px] leading-relaxed">
                   Unbounded audio queues cause catastrophic buffer bloat: latency continuously grows from tens of milliseconds into multiple seconds. DuoAudio strictly bounds every internal queue to 200ms maximum, shedding stale frames when hardware congestion occurs to enforce real-time playback.
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-[#181A25] border border-[#282C3A]">
-                <h4 className="text-sm font-semibold text-gray-100 mb-1 flex items-center gap-2">
-                  <span className="text-[#9AA7FF]">3. Failsafe Mute Baseline Handshake:</span>
-                </h4>
-                <p className="text-xs text-gray-300 leading-relaxed">
-                  To prevent the user's laptop speakers from ever being left permanently muted after a crash, the child runner records the baseline state and transmits a <code className="text-gray-200">MUTE_BASELINE</code> IPC message to the Electron supervisor before muting hardware. If the child process is terminated abnormally, the main process immediately catches the exit signal and executes a synchronous native unmute (<code className="text-gray-200">restoreAllSync()</code>).
+              <div>
+                <h3 className="text-lg font-semibold text-[#9AA7FF] mb-2 font-display">
+                  3. Failsafe Mute Baseline Handshake
+                </h3>
+                <p className="text-gray-300 text-[16px] leading-relaxed">
+                  To prevent the user's laptop speakers from ever being left permanently muted after a crash, the child runner records the baseline state and transmits a <code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">MUTE_BASELINE</code> IPC message to the Electron supervisor before muting hardware. If the child process is terminated abnormally, the main process immediately catches the exit signal and executes a synchronous native unmute (<code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">restoreAllSync()</code>).
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-[#181A25] border border-[#282C3A]">
-                <h4 className="text-sm font-semibold text-gray-100 mb-1 flex items-center gap-2">
-                  <span className="text-purple-400">4. Mutual Stream Failure Isolation:</span>
-                </h4>
-                <p className="text-xs text-gray-300 leading-relaxed">
-                  The two output streams operate with complete mutual independence. If Earbud 1 disconnects, runs out of battery, or encounters a driver error, the runner transitions to <code className="text-gray-200">PARTIALLY_DEGRADED</code> state. Earbud 2 continues streaming uninterrupted; the session is only halted if both destination streams fail.
+              <div>
+                <h3 className="text-lg font-semibold text-[#9AA7FF] mb-2 font-display">
+                  4. Mutual Stream Failure Isolation
+                </h3>
+                <p className="text-gray-300 text-[16px] leading-relaxed">
+                  The two output streams operate with complete mutual independence. If Earbud 1 disconnects, runs out of battery, or encounters a driver error, the runner transitions to <code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">PARTIALLY_DEGRADED</code> state. Earbud 2 continues streaming uninterrupted; the session is only halted if both destination streams fail.
                 </p>
               </div>
             </div>
