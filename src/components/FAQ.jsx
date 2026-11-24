@@ -52,11 +52,10 @@ export default function FAQ() {
             return (
               <div
                 key={index}
-                className={`rounded-2xl transition-all border overflow-hidden ${
-                  isOpen
+                className={`rounded-2xl transition-all border overflow-hidden ${isOpen
                     ? 'bg-[#0B0D13] border-white/[0.12]'
                     : 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.035]'
-                }`}
+                  }`}
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? -1 : index)}
@@ -66,9 +65,8 @@ export default function FAQ() {
                     {faq.q}
                   </span>
                   <div
-                    className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'bg-white/[0.08] text-white rotate-180' : 'bg-white/[0.04] text-gray-400'
-                    }`}
+                    className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-transform duration-200 ${isOpen ? 'bg-white/[0.08] text-white rotate-180' : 'bg-white/[0.04] text-gray-400'
+                      }`}
                   >
                     <ChevronDown className="w-4 h-4" />
                   </div>

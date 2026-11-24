@@ -26,7 +26,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden bg-[#07080B]">
+    <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden bg-gradient-to-b from-[#0C0D12] via-[#090A0E] to-[#07080B]">
       {/* Subtle, single-source atmospheric periwinkle ambient glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[#5C6CDB]/12 rounded-full blur-[140px] pointer-events-none -z-10" />
 

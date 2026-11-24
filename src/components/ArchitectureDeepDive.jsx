@@ -210,11 +210,10 @@ HRESULT SetDefaultEndpoint(const std::wstring& deviceId) {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 sm:px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-medium transition-all flex items-center space-x-2 border ${
-                activeTab === tab.id
+              className={`px-4 sm:px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-medium transition-all flex items-center space-x-2 border ${activeTab === tab.id
                   ? 'bg-[#5C6CDB]/20 border-[#5C6CDB]/50 text-white shadow-lg shadow-[#5C6CDB]/10'
                   : 'bg-white/[0.03] border-white/[0.06] text-gray-400 hover:text-white hover:bg-white/[0.06]'
-              }`}
+                }`}
             >
               <span>{tab.title}</span>
               <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-md bg-white/[0.08] text-gray-300 hidden sm:inline">

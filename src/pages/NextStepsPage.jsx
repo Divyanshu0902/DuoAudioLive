@@ -52,7 +52,7 @@ export default function NextStepsPage() {
       <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-[#5C6CDB]/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Back to Home Navigation */}
         <div className="mb-8">
           <Link
@@ -93,7 +93,7 @@ export default function NextStepsPage() {
         {/* SECTION 1: CHROME-STYLE 3-CARD INSTALLATION STEPS */}
         <div className="mb-28 w-full">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-            
+
             {/* Card 1: Open */}
             <div className="rounded-3xl bg-[#0E121B] border border-white/[0.08] overflow-hidden flex flex-col justify-between shadow-2xl shadow-black/80 hover:border-white/[0.14] transition-all">
               {/* Top Text Content */}
@@ -218,7 +218,7 @@ export default function NextStepsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            
+
             {/* Trust Point 1: Indie Project (No Expensive Certificate) */}
             <div className="rounded-2xl p-6 bg-white/[0.02] border border-white/[0.08] flex items-start space-x-4">
               <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-300 shrink-0 mt-0.5">

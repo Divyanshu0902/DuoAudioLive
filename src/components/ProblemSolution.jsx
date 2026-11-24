@@ -24,22 +24,20 @@ export default function ProblemSolution() {
           <div className="inline-flex p-1 rounded-full bg-white/[0.04] border border-white/[0.08]">
             <button
               onClick={() => setMode('duoaudio')}
-              className={`px-5 py-2 rounded-full text-xs font-semibold transition-all ${
-                mode === 'duoaudio'
+              className={`px-5 py-2 rounded-full text-xs font-semibold transition-all ${mode === 'duoaudio'
                   ? 'bg-white text-black shadow-sm'
                   : 'text-gray-400 hover:text-white'
-              }`}
+                }`}
             >
               The DuoAudio Way
             </button>
 
             <button
               onClick={() => setMode('windows')}
-              className={`px-5 py-2 rounded-full text-xs font-semibold transition-all ${
-                mode === 'windows'
+              className={`px-5 py-2 rounded-full text-xs font-semibold transition-all ${mode === 'windows'
                   ? 'bg-white/[0.1] text-white'
                   : 'text-gray-400 hover:text-white'
-              }`}
+                }`}
             >
               The Windows Way
             </button>
