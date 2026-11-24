@@ -19,9 +19,9 @@ export default function Hero() {
     link.click();
     document.body.removeChild(link);
 
-    // Smoothly route to next steps page
+    // Smoothly route to next steps page with state marking download already triggered
     setTimeout(() => {
-      navigate('/download/next-steps');
+      navigate('/download/next-steps', { state: { downloaded: true } });
     }, 600);
   };
 

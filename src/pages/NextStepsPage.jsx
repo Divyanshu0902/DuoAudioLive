@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Check,
   Copy,
@@ -20,8 +20,17 @@ export default function NextStepsPage() {
   const downloadUrl = 'https://github.com/Divyanshu0902/DuoAudio/releases/download/v1.0.2/DuoAudio.Setup.1.0.2.exe';
   const verifyCmd = 'Get-FileHash .\\DuoAudio.Setup.1.0.2.exe -Algorithm SHA256';
 
-  // Automatically trigger download on page mount
+  const location = useLocation();
+  const hasTriggeredRef = useRef(false);
+
+  // Automatically trigger download on page mount ONLY for direct URL visits.
+  // If arrived via download button (Hero or DownloadSection), the download was already initiated on click.
   useEffect(() => {
+    if (location.state?.downloaded || hasTriggeredRef.current) {
+      return;
+    }
+
+    hasTriggeredRef.current = true;
     const timer = setTimeout(() => {
       const link = document.createElement('a');
       link.href = downloadUrl;
@@ -32,7 +41,7 @@ export default function NextStepsPage() {
     }, 600);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [location.state]);
 
   const handleCopyHash = () => {
     navigator.clipboard.writeText(checksum);

@@ -27,7 +27,7 @@ export default function DownloadSection() {
     document.body.removeChild(link);
 
     setTimeout(() => {
-      navigate('/download/next-steps');
+      navigate('/download/next-steps', { state: { downloaded: true } });
     }, 600);
   };
 
