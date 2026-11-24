@@ -194,14 +194,23 @@ export const DOCS_ARTICLES = {
     number: '02',
     title: 'System Architecture',
     subtitle: 'Process Boundaries & Containment',
-    lead: 'DuoAudio uses a multi-process architecture engineered to isolate real-time audio processing from UI rendering, crash risks, and third-party driver instability.',
+    lead: (
+      <>
+        DuoAudio uses a <span className="text-white font-medium">multi-process architecture</span> engineered to isolate real-time audio processing from UI rendering, crash risks, and third-party driver instability.
+      </>
+    ),
     toc: [
+      { id: 'arch-diagram', title: 'Architecture Diagram' },
       { id: 'arch-overview', title: 'Subsystem Overview' },
-      { id: 'arch-diagram', title: 'System Architecture Diagram' },
       { id: 'arch-components', title: 'Component Inventory & Contracts' },
       { id: 'arch-principles', title: 'Architectural Design Principles' }
     ],
     sections: [
+      {
+        id: 'arch-diagram',
+        title: null,
+        content: <SystemArchitectureDiagram />
+      },
       {
         id: 'arch-overview',
         title: 'Subsystem Overview & Process Tiers',
@@ -227,19 +236,6 @@ export const DOCS_ARTICLES = {
                 <span><strong className="text-gray-100 font-semibold">Tier 3 — Native Windows COM Helper:</strong> Runs <code className="text-gray-200 bg-white/[0.06] px-1.5 py-0.5 rounded text-sm font-mono">duoaudio_endpoint.exe</code> (compiled from C++ with MinGW GCC 13.2.0). Interacts directly with Windows Core Audio COM interfaces for default route switching and hardware mute clamping.</span>
               </li>
             </ul>
-          </div>
-        )
-      },
-      {
-        id: 'arch-diagram',
-        title: 'System Architecture Diagram',
-        content: (
-          <div className="space-y-3">
-            <p className="text-gray-300 text-[16px]">
-              The following diagram illustrates component containment, runtime process boundaries, inter-process communication mechanisms, and external Windows audio interfaces:
-            </p>
-            {/* Embedded Interactive System Architecture Diagram */}
-            <SystemArchitectureDiagram />
           </div>
         )
       },

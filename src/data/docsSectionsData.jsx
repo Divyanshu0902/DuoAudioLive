@@ -43,8 +43,8 @@ export const DOCS_SECTIONS = [
     subtitle: 'Process Boundaries & Containment',
     icon: Layers,
     topics: [
-      { id: 'arch-overview', title: 'Subsystem Overview' },
       { id: 'arch-diagram', title: 'System Architecture Diagram' },
+      { id: 'arch-overview', title: 'Subsystem Overview' },
       { id: 'arch-components', title: 'Component Inventory & Contracts' },
       { id: 'arch-principles', title: 'Architectural Design Principles' }
     ]

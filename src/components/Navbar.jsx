@@ -71,7 +71,7 @@ export default function Navbar() {
               Features
             </button>
             <Link
-              to="/architecture"
+              to="/architecture#section-02-architecture"
               className={`px-3.5 py-1.5 text-xs rounded-full transition-colors ${
                 location.pathname === '/architecture' || location.pathname === '/docs'
                   ? 'bg-white/[0.08] text-white font-medium'
@@ -139,7 +139,7 @@ export default function Navbar() {
               Features
             </button>
             <Link
-              to="/architecture"
+              to="/architecture#section-02-architecture"
               onClick={() => setMobileMenuOpen(false)}
               className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/[0.04] rounded-lg"
             >

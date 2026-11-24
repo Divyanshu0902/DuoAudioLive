@@ -5,6 +5,7 @@ import {
   X, 
   ChevronRight, 
   ChevronLeft, 
+  ChevronDown, 
   ExternalLink, 
   Github, 
   Check, 
@@ -16,7 +17,9 @@ import {
   AlertTriangle, 
   Bookmark,
   Hash,
-  ArrowUpRight
+  ArrowUpRight,
+  PanelLeftClose,
+  PanelLeftOpen
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { DOCS_SECTIONS, DOCS_SEARCH_INDEX } from '../data/docsSectionsData';
@@ -24,15 +27,39 @@ import { DOCS_ARTICLES } from '../data/docsArticles';
 import DocsSearchModal from '../components/docs/DocsSearchModal';
 
 export default function DocsPage() {
-  const [activeSectionId, setActiveSectionId] = useState('section-01-overview');
+  const location = useLocation();
+  const navigate = useNavigate();
+  const contentAreaRef = useRef(null);
+
+  // Default to Section 02 if navigating to /architecture
+  const initialSection = (location.pathname === '/architecture' || location.hash.includes('architecture') || location.hash.includes('arch-'))
+    ? 'section-02-architecture'
+    : 'section-01-overview';
+
+  const [activeSectionId, setActiveSectionId] = useState(initialSection);
+  const [expandedSectionId, setExpandedSectionId] = useState(initialSection);
   const [activeAnchorId, setActiveAnchorId] = useState(null);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [copiedAnchor, setCopiedAnchor] = useState(null);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-  const location = useLocation();
-  const navigate = useNavigate();
-  const contentAreaRef = useRef(null);
+  // Sync active section if pathname or hash points to a specific section/topic
+  useEffect(() => {
+    if (location.pathname === '/architecture' || location.hash.includes('architecture') || location.hash.includes('arch-')) {
+      setActiveSectionId('section-02-architecture');
+      setExpandedSectionId('section-02-architecture');
+    } else if (location.hash) {
+      const anchor = location.hash.replace('#', '');
+      for (const section of DOCS_SECTIONS) {
+        if (section.id === anchor || section.topics.some(t => t.id === anchor)) {
+          setActiveSectionId(section.id);
+          setExpandedSectionId(section.id);
+          break;
+        }
+      }
+    }
+  }, [location.pathname, location.hash]);
 
   // Active Article Content
   const currentArticle = DOCS_ARTICLES[activeSectionId] || DOCS_ARTICLES['section-01-overview'];
@@ -76,6 +103,7 @@ export default function DocsPage() {
   // Navigate to section & anchor
   const handleSelectTopic = (sectionId, anchorId) => {
     setActiveSectionId(sectionId);
+    setExpandedSectionId(sectionId);
     setMobileSidebarOpen(false);
     if (anchorId) {
       setActiveAnchorId(anchorId);
@@ -89,6 +117,20 @@ export default function DocsPage() {
     } else {
       navigate(`/docs`);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  // Toggle accordion expand/collapse on clicking section
+  const handleToggleSection = (sectionId) => {
+    if (expandedSectionId === sectionId) {
+      // If already expanded, collapse it
+      setExpandedSectionId(null);
+    } else {
+      // If collapsed, expand it and activate section
+      setExpandedSectionId(sectionId);
+      if (activeSectionId !== sectionId) {
+        handleSelectTopic(sectionId, null);
+      }
     }
   };
 
@@ -109,51 +151,18 @@ export default function DocsPage() {
         searchIndex={DOCS_SEARCH_INDEX}
       />
 
-      {/* Sub-Header Bar (Desktop & Mobile) */}
-      <div className="border-b border-white/[0.08] bg-[#111318]/90 backdrop-blur-md sticky top-16 z-30 px-4 sm:px-6 lg:px-8 py-2.5">
-        <div className="max-w-[96rem] mx-auto flex items-center justify-between gap-4">
-          {/* Breadcrumb & Mobile Toggle */}
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-              className="lg:hidden p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/[0.05]"
-              aria-label="Toggle navigation menu"
-            >
-              {mobileSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-            <div className="flex items-center space-x-2 text-xs font-mono text-gray-400">
-              <Link to="/" className="hover:text-gray-200">DuoAudio</Link>
-              <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
-              <span className="text-gray-300 font-medium">Docs</span>
-              <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
-              <span className="text-[#9AA7FF] font-semibold">{currentArticle.title}</span>
-            </div>
-          </div>
-
-          {/* Quick Search Button & GitHub Link */}
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={() => setSearchModalOpen(true)}
-              className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-xs text-gray-400 hover:border-gray-500 hover:text-gray-200 transition-colors shadow-sm"
-            >
-              <Search className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Search docs...</span>
-              <kbd className="hidden sm:inline-block ml-2 px-1.5 py-0.5 text-[10px] font-mono text-gray-400 bg-white/[0.05] border border-white/[0.1] rounded">
-                ⌘K
-              </kbd>
-            </button>
-
-            <a
-              href="https://github.com/Divyanshu0902/DuoAudio"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:flex items-center space-x-1 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-xs text-gray-300 hover:text-white hover:border-[#5C6CDB]/50 transition-colors"
-            >
-              <Github className="w-3.5 h-3.5" />
-              <span>v1.0.2</span>
-            </a>
-          </div>
-        </div>
+      {/* Mobile Navigation Drawer Trigger (Mobile Only) */}
+      <div className="lg:hidden border-b border-white/[0.08] px-4 py-2.5 flex items-center justify-between bg-[#111318]">
+        <button
+          onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
+          className="flex items-center space-x-2 text-xs font-mono text-gray-400 hover:text-white"
+        >
+          {mobileSidebarOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          <span>Navigation Menu</span>
+        </button>
+        <span className="text-xs font-mono text-[#9AA7FF] truncate max-w-[200px]">
+          {currentArticle.title}
+        </span>
       </div>
 
       {/* Main 3-Column Layout Container */}
@@ -161,49 +170,63 @@ export default function DocsPage() {
         <div className="flex relative">
           
           {/* ===================================================================
-              COLUMN 1: Left Persistent Sidebar
+              COLUMN 1: Left Persistent Sidebar (Collapsible)
               =================================================================== */}
           <aside
             className={`
-              fixed lg:sticky top-[105px] h-[calc(100vh-105px)] z-40 lg:z-10
-              w-72 shrink-0 border-r border-white/[0.08] bg-[#111318] lg:bg-transparent
-              overflow-y-auto pb-12 pt-4 pr-4 transition-transform duration-200 ease-in-out
+              fixed lg:sticky top-16 h-[calc(100vh-4rem)] z-40 lg:z-10
+              border-r border-white/[0.08] bg-[#111318] lg:bg-transparent
+              overflow-y-auto pb-12 pt-6 transition-all duration-200 ease-in-out
               ${mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+              ${sidebarCollapsed ? 'lg:w-0 lg:p-0 lg:border-r-0 lg:overflow-hidden' : 'w-72 shrink-0 pr-4'}
             `}
           >
-            <div className="space-y-6">
+            <div className={`space-y-6 ${sidebarCollapsed ? 'hidden' : 'block'}`}>
+              {/* Collapse Header for Desktop */}
+              <div className="hidden lg:flex items-center justify-between px-3 pb-2 mb-2 border-b border-white/[0.06]">
+                <span className="text-[11px] font-mono tracking-wider uppercase text-gray-400 font-semibold">
+                  Sections
+                </span>
+                <button
+                  onClick={() => setSidebarCollapsed(true)}
+                  className="p-1 rounded text-gray-400 hover:text-white hover:bg-white/[0.05] transition-colors"
+                  title="Collapse sidebar"
+                  aria-label="Collapse sidebar"
+                >
+                  <PanelLeftClose className="w-4 h-4" />
+                </button>
+              </div>
+
               {/* Documentation Section Navigation */}
               <div className="space-y-1">
-                <div className="text-[11px] font-mono tracking-wider uppercase text-gray-500 px-3 mb-2 font-semibold">
-                  Documentation Portal
-                </div>
                 {DOCS_SECTIONS.map((section) => {
                   const Icon = section.icon;
                   const isActive = activeSectionId === section.id;
+                  const isExpanded = expandedSectionId === section.id;
                   return (
                     <div key={section.id} className="space-y-0.5">
                       <button
-                        onClick={() => handleSelectTopic(section.id, null)}
-                        className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
+                        onClick={() => handleToggleSection(section.id)}
+                        className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group ${
                           isActive
                             ? 'bg-[#5C6CDB]/15 text-[#9AA7FF] border border-[#5C6CDB]/30 font-semibold'
                             : 'text-gray-400 hover:text-gray-200 hover:bg-white/[0.03]'
                         }`}
                       >
-                        <div className="flex items-center space-x-2.5 truncate">
-                          <span className={`text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded ${
-                            isActive ? 'bg-[#5C6CDB]/30 text-white' : 'bg-white/[0.05] text-gray-500'
-                          }`}>
-                            {section.number}
-                          </span>
+                        <div className="flex items-center space-x-2.5 min-w-0 truncate">
+                          <Icon className={`w-4 h-4 shrink-0 transition-colors ${
+                            isActive ? 'text-[#9AA7FF]' : 'text-gray-400 group-hover:text-gray-200'
+                          }`} />
                           <span className="truncate">{section.title}</span>
                         </div>
-                        <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-[#9AA7FF]' : 'text-gray-500'}`} />
+                        <ChevronDown className={`w-3.5 h-3.5 shrink-0 transition-transform duration-200 ${
+                          isExpanded ? 'rotate-180 text-[#9AA7FF]' : 'text-gray-500 group-hover:text-gray-400'
+                        }`} />
                       </button>
 
-                      {/* Expanded Sub-Topics for Active Section */}
-                      {isActive && (
-                        <div className="pl-8 pr-2 py-1 space-y-1 border-l border-white/[0.08] ml-4 my-1">
+                      {/* Expanded Sub-Topics for Active/Expanded Section */}
+                      {isExpanded && (
+                        <div className="pl-6 pr-2 py-1 space-y-1 border-l border-white/[0.08] ml-5 my-1">
                           {section.topics.map((topic) => {
                             const isTopicActive = activeAnchorId === topic.id;
                             return (
@@ -273,48 +296,55 @@ export default function DocsPage() {
             ref={contentAreaRef}
             className="flex-1 min-w-0 px-4 sm:px-8 lg:px-12 py-8 lg:py-10 pb-24"
           >
-            <div className="max-w-4xl mx-auto space-y-12">
+            <div className="max-w-4xl mx-auto space-y-6">
+              {/* Show Sidebar button when collapsed */}
+              {sidebarCollapsed && (
+                <button
+                  onClick={() => setSidebarCollapsed(false)}
+                  className="hidden lg:inline-flex items-center justify-center p-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-gray-300 hover:text-white transition-colors"
+                  title="Expand sidebar"
+                  aria-label="Expand sidebar"
+                >
+                  <PanelLeftOpen className="w-4 h-4 text-[#9AA7FF]" />
+                </button>
+              )}
+
               {/* Section Header */}
-              <div className="space-y-3 pb-8 border-b border-white/[0.08]">
-                <div className="flex items-center space-x-2 text-xs font-mono text-[#9AA7FF]">
-                  <span className="px-2 py-0.5 rounded bg-[#5C6CDB]/20 border border-[#5C6CDB]/30 font-semibold">
-                    SECTION {currentArticle.number}
-                  </span>
-                  <span>/</span>
-                  <span className="text-gray-400 uppercase tracking-wider">{currentArticle.subtitle}</span>
-                </div>
+              <div className="space-y-2 pb-5 border-b border-white/[0.08]">
                 <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-semibold tracking-tight text-white leading-tight">
                   {currentArticle.title}
                 </h1>
-                <p className="text-base sm:text-lg text-gray-300 leading-relaxed font-sans pt-1">
+                <p className="text-base sm:text-lg text-gray-400 leading-relaxed font-sans pt-1">
                   {currentArticle.lead}
                 </p>
               </div>
 
               {/* Render Section Topics & Sub-Articles */}
-              <div className="space-y-14">
+              <div className="space-y-12">
                 {currentArticle.sections.map((sec) => (
                   <section 
                     key={sec.id} 
                     id={sec.id} 
                     className="scroll-mt-36 space-y-4"
                   >
-                    <div className="flex items-center justify-between group">
-                      <h2 className="text-xl sm:text-2xl font-semibold text-gray-100 tracking-tight flex items-center gap-2">
-                        <span>{sec.title}</span>
-                      </h2>
-                      <button
-                        onClick={() => handleCopyAnchor(sec.id)}
-                        title="Copy link to section"
-                        className="opacity-0 group-hover:opacity-100 p-1.5 rounded text-gray-500 hover:text-gray-300 transition-opacity"
-                      >
-                        {copiedAnchor === sec.id ? (
-                          <Check className="w-4 h-4 text-emerald-400" />
-                        ) : (
-                          <Hash className="w-4 h-4" />
-                        )}
-                      </button>
-                    </div>
+                    {sec.title && (
+                      <div className="flex items-center justify-between group">
+                        <h2 className="text-xl sm:text-2xl font-semibold text-gray-100 tracking-tight flex items-center gap-2">
+                          <span>{sec.title}</span>
+                        </h2>
+                        <button
+                          onClick={() => handleCopyAnchor(sec.id)}
+                          title="Copy link to section"
+                          className="opacity-0 group-hover:opacity-100 p-1.5 rounded text-gray-500 hover:text-gray-300 transition-opacity"
+                        >
+                          {copiedAnchor === sec.id ? (
+                            <Check className="w-4 h-4 text-emerald-400" />
+                          ) : (
+                            <Hash className="w-4 h-4" />
+                          )}
+                        </button>
+                      </div>
+                    )}
 
                     {/* Section Body */}
                     <div className="text-gray-300 font-sans">
@@ -362,7 +392,7 @@ export default function DocsPage() {
           {/* ===================================================================
               COLUMN 3: Right-Side Table of Contents
               =================================================================== */}
-          <aside className="hidden xl:block w-64 shrink-0 py-10 pl-6 border-l border-white/[0.08] sticky top-[105px] h-[calc(100vh-105px)] overflow-y-auto">
+          <aside className="hidden xl:block w-64 shrink-0 py-10 pl-6 border-l border-white/[0.08] sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
             <div className="space-y-4">
               <div className="text-[11px] font-mono tracking-wider uppercase text-gray-500 font-semibold">
                 On This Page
