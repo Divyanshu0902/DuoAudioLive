@@ -479,7 +479,7 @@ export default function TroubleshootingPage() {
         {/* 6. BOTTOM NAVIGATION LINKS */}
         <div className="pt-10 border-t border-white/[0.08] flex items-center justify-between text-sm text-gray-400">
           <Link
-            to="/docs"
+            to="/architecture"
             className="flex items-center gap-1.5 hover:text-white transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />

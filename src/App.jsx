@@ -2,10 +2,12 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import RouteSeo from './components/RouteSeo';
 import HomePage from './pages/HomePage';
 import DocsPage from './pages/DocsPage';
 import TroubleshootingPage from './pages/TroubleshootingPage';
 import NextStepsPage from './pages/NextStepsPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 // Scroll management component for hashes and route transitions
 function ScrollHandler() {
@@ -32,6 +34,7 @@ function ScrollHandler() {
 export default function App() {
   return (
     <BrowserRouter>
+      <RouteSeo />
       <ScrollHandler />
       <div className="min-h-screen bg-[#07080B] text-[#F3F4F6] selection:bg-[#5C6CDB]/40 selection:text-white flex flex-col">
         {/* Sticky Glassmorphic Navbar */}
@@ -41,14 +44,13 @@ export default function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            {/* Renamed /architecture route, with /docs aliased for backwards compatibility */}
+            {/* Official documentation route */}
             <Route path="/architecture" element={<DocsPage />} />
-            <Route path="/docs" element={<DocsPage />} />
             <Route path="/troubleshooting" element={<TroubleshootingPage />} />
             <Route path="/download/next-steps" element={<NextStepsPage />} />
             <Route path="/download" element={<NextStepsPage />} />
-            {/* Fallback to home */}
-            <Route path="*" element={<HomePage />} />
+            {/* Explicit 404 view for unknown routes */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
 

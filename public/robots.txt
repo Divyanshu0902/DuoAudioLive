@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://getduoaudio.pages.dev/sitemap.xml

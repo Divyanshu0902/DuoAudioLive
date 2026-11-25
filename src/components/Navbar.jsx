@@ -32,7 +32,7 @@ export default function Navbar() {
 
   const handleArchitectureClick = () => {
     setMobileMenuOpen(false);
-    if (location.pathname === '/architecture' || location.pathname === '/docs') {
+    if (location.pathname === '/architecture') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -81,7 +81,7 @@ export default function Navbar() {
               to="/architecture"
               onClick={handleArchitectureClick}
               className={`px-3.5 py-1.5 text-xs rounded-full transition-colors ${
-                location.pathname === '/architecture' || location.pathname === '/docs'
+                location.pathname === '/architecture'
                   ? 'bg-white/[0.08] text-white font-medium'
                   : 'text-gray-400 hover:text-white'
               }`}

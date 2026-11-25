@@ -364,7 +364,7 @@ export default function NextStepsPage() {
               Troubleshooting FAQ
             </Link>
             <span>•</span>
-            <Link to="/docs" className="text-gray-400 hover:text-white transition-colors">
+            <Link to="/architecture" className="text-gray-400 hover:text-white transition-colors">
               Architecture Docs
             </Link>
           </div>

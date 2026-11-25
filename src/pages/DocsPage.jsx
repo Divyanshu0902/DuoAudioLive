@@ -31,10 +31,19 @@ export default function DocsPage() {
   const navigate = useNavigate();
   const contentAreaRef = useRef(null);
 
-  // Default to Section 02 if navigating to /architecture
-  const initialSection = (location.pathname === '/architecture' || location.hash.includes('architecture') || location.hash.includes('arch-'))
-    ? 'section-02-architecture'
-    : 'section-01-overview';
+  // Resolve initial section from URL hash or default to System Architecture
+  const resolveSectionFromHash = (hash) => {
+    if (!hash) return null;
+    const anchor = hash.replace('#', '');
+    for (const section of DOCS_SECTIONS) {
+      if (section.id === anchor || section.topics.some(t => t.id === anchor)) {
+        return section.id;
+      }
+    }
+    return null;
+  };
+
+  const initialSection = resolveSectionFromHash(location.hash) || 'section-02-architecture';
 
   const [activeSectionId, setActiveSectionId] = useState(initialSection);
   const [expandedSectionId, setExpandedSectionId] = useState(initialSection);
@@ -44,22 +53,22 @@ export default function DocsPage() {
   const [copiedAnchor, setCopiedAnchor] = useState(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-  // Sync active section if pathname or hash points to a specific section/topic
+  // Sync active section when URL hash or explicit section state changes
   useEffect(() => {
-    if (location.pathname === '/architecture' || location.hash.includes('architecture') || location.hash.includes('arch-')) {
+    if (location.hash) {
+      const matchedSection = resolveSectionFromHash(location.hash);
+      if (matchedSection) {
+        setActiveSectionId(matchedSection);
+        setExpandedSectionId(matchedSection);
+      }
+    } else if (location.state?.sectionId) {
+      setActiveSectionId(location.state.sectionId);
+      setExpandedSectionId(location.state.sectionId);
+    } else {
       setActiveSectionId('section-02-architecture');
       setExpandedSectionId('section-02-architecture');
-    } else if (location.hash) {
-      const anchor = location.hash.replace('#', '');
-      for (const section of DOCS_SECTIONS) {
-        if (section.id === anchor || section.topics.some(t => t.id === anchor)) {
-          setActiveSectionId(section.id);
-          setExpandedSectionId(section.id);
-          break;
-        }
-      }
     }
-  }, [location.pathname, location.hash]);
+  }, [location.pathname, location.hash, location.state]);
 
   // Active Article Content
   const currentArticle = DOCS_ARTICLES[activeSectionId] || DOCS_ARTICLES['section-01-overview'];
@@ -110,7 +119,7 @@ export default function DocsPage() {
     setMobileSidebarOpen(false);
     if (anchorId) {
       setActiveAnchorId(anchorId);
-      navigate(`/docs#${anchorId}`);
+      navigate(`/architecture#${anchorId}`);
       setTimeout(() => {
         const el = document.getElementById(anchorId);
         if (el) {
@@ -118,7 +127,7 @@ export default function DocsPage() {
         }
       }, 100);
     } else {
-      navigate(`/docs`);
+      navigate('/architecture', { state: { sectionId } });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -138,7 +147,7 @@ export default function DocsPage() {
   };
 
   const handleCopyAnchor = (anchorId) => {
-    const url = `${window.location.origin}/docs#${anchorId}`;
+    const url = `${window.location.origin}/architecture#${anchorId}`;
     navigator.clipboard.writeText(url);
     setCopiedAnchor(anchorId);
     setTimeout(() => setCopiedAnchor(null), 2000);
